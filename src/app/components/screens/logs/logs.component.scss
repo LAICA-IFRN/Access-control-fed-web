@@ -1,0 +1,12 @@
+.mr-5px {
+  margin-right: 5px;
+}
+
+.red-primary-color {
+  color: #ff2c1d!important;
+}
+
+:host ::ng-deep .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-active {
+  background-color: #d90096; //
+  border: 1px solid #d600d9;
+}

@@ -1,0 +1,26 @@
+<div class="card mb-3">
+    <p-fieldset legend="Perfil" class="content-div"> 
+        <!-- <p-avatar image="{{userAuthenticated.encodedImage | base64ToImage}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar> -->
+        <img [src]="userAuthenticated.encodedImage | base64ToImage" alt="Imagem">
+        <div class="info-section">
+            <div class="flex flex-column gap-2 info-element">
+                <label for="username">Nome</label>
+                <input pInputText id="username" value="{{userAuthenticated.name}}" [disabled]="true" />
+            </div>
+            <div class="flex flex-column gap-2 info-element">
+                <label for="email">E-mail</label>
+                <input pInputText id="email" value="{{userAuthenticated.email}}" [disabled]="true" />
+            </div>
+        </div>
+        <div class="info-section">
+            <div class="flex flex-column gap-2 info-element">
+                <label for="type">Tipo</label>
+                <input pInputText id="type" value="{{userType}}" [disabled]="true" />
+            </div>
+            <div class="flex flex-column gap-2 info-element">
+                <label for="document">Documento</label>
+                <input pInputText id="document" value="{{userAuthenticated.document}} ({{documentType}})" [disabled]="true" />
+            </div>
+        </div>
+    </p-fieldset>
+</div>

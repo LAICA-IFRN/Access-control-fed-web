@@ -1,0 +1,175 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Adicionar" icon="pi pi-user-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <div class="mr-5px">
+                        <p-dropdown [options]="userTypes" [(ngModel)]="selectedUserType" optionLabel="name" [showClear]="true" placeholder="Tipo"></p-dropdown>
+                    </div>
+                    <div class="mr-5px">
+                        <p-dropdown [options]="status" [(ngModel)]="selectedStatus" optionLabel="name" [showClear]="true" placeholder="Status"></p-dropdown>
+                    </div>
+                    <div class="mr-5px">
+                        <p-multiSelect [style]="{'max-width':'150px'}" [options]="roles" [(ngModel)]="selectedRoles" optionLabel="name" [filter]="false" scrollHeight="250px" placeholder="Papéis"></p-multiSelect>
+                    </div>
+                    <div class="mr-5px">
+                        <input pInputText id="searchName" [(ngModel)]="searchName" placeholder="Nome" />
+                    </div>
+                    <p-button icon="pi pi-search" severity="success" (click)="searchUser()"></p-button>
+                </ng-template>
+            </p-toolbar>
+            <p-table [value]="users.data" dataKey="id" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 5rem"></th>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user let-expanded="expanded">
+                    <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="user" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td >{{user.name}}</td>
+                        <td >{{user.document_type_id === 1 ? 'Interno' : 'Externo'}}</td>
+                        <td >{{user.active == true ? 'Ativo' : 'Inativo'}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-user>
+                    <tr>
+                        <td colspan="4">
+                            <div class="p-3">
+                                <div><strong>ID:</strong>  {{user.id}}</div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="flex-auto">
+                <p-paginator (onPageChange)="onPageChange($event)" [first]="0" [rows]="users.pageSize" [totalRecords]="users.total" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+            </div>
+        </div>
+
+        <p-dialog [(visible)]="createUserDialog" [style]="{width: '800px'}" header="Adicionar novo usuário" [modal]="true" class="p-fluid">
+            <p-toolbar styleClass="mb-4">
+                <div class="my-2 select-b-create-user">
+                    <p-selectButton [options]="userCreateOptions" [(ngModel)]="userCreateSelected" (onChange)="changeUserCreateOptions($event)" optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+            </p-toolbar>
+            <ng-template pTemplate="content">
+                <div *ngIf="userCreateSelected === interno" style="height: 250px;">
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field" style="width: 100%;">
+                            <label for="password">Perfil</label>
+                            <p-multiSelect [options]="roleTypes" [(ngModel)]="userInternalCreateModel.rolesToAdd" [ngClass]="{'ng-invalid ng-dirty' : requiredFieldArray(userInternalCreateModel.rolesToAdd)}" placeholder="Selecionar o perfildo usuário" optionLabel="description" optionValue="value" display="chip" [showClear]="true" [filter]="false"></p-multiSelect>
+                            <small class="ng-dirty ng-invalid" *ngIf="requiredFieldArray(userInternalCreateModel.rolesToAdd)">Perfil é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="email_interno">E-mail</label>
+                        <input type="email" pInputText id="email_interno" [(ngModel)]="userInternalCreateModel.email" required autofocus [ngClass]="{'ng-invalid ng-dirty' : requiredField(userInternalCreateModel.email)}"/>
+                        <small class="ng-dirty ng-invalid" *ngIf="requiredField(userInternalCreateModel.email)">E-mail é obrigatório.</small>
+                    </div>
+                </div>
+
+                <div *ngIf="userCreateSelected === externo">
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field" style="width: 50%; padding-right: 20px;">
+                            <label class="mb-3">Tipo documento</label>
+                            <div class="flex flex-wrap gap-3">
+                                <div *ngFor="let doc of documentTypes" class="flex align-items-center">
+                                    <p-radioButton [inputId]="doc.id" name="doc" [value]="doc.value" [(ngModel)]="userExternalCreateModel.documentType"></p-radioButton>
+                                    <label [for]="doc.id" class="ml-2">{{ doc.description }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field" style="width: 50%;">
+                            <label for="document">Documento</label>
+                            <p-inputMask id="document" [mask]="documentMask" [(ngModel)]="userExternalCreateModel.document" [placeholder]="documentMask" [ngClass]="{'ng-invalid ng-dirty' : requiredField(userExternalCreateModel.document)}"></p-inputMask>
+                            <small class="ng-dirty ng-invalid" *ngIf="requiredField(userExternalCreateModel.document)">Documento é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field" style="width: 50%; padding-right: 20px;">
+                            <label for="name">Nome</label>
+                            <input type="text" pInputText id="name" [(ngModel)]="userExternalCreateModel.name" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(userExternalCreateModel.name)}"/>
+                            <small class="ng-dirty ng-invalid" *ngIf="requiredField(userExternalCreateModel.name)">Nome é obrigatório.</small>
+                        </div>
+                        <div class="field" style="width: 50%;">
+                            <label for="name">E-mail</label>
+                            <input #userEmail="ngModel" type="email" [email]="true" pInputText id="email" aria-describedby="email_msg" [(ngModel)]="userExternalCreateModel.email" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(userExternalCreateModel.email)}"/>
+                            <small id="email_msg" class="ng-dirty ng-invalid" *ngIf="requiredField(userExternalCreateModel.email)">E-mail é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field" style="width: 50%; padding-right: 20px;">
+                            <label for="password">Senha</label>
+                            <p-password id="password" [(ngModel)]="userExternalCreateModel.password" [toggleMask]="true" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(userExternalCreateModel.password)}"></p-password>
+                            <small class="ng-dirty ng-invalid" *ngIf="requiredField(userExternalCreateModel.password)">Senha é obrigatório.</small>
+                        </div>
+                        <div class="field" style="width: 50%;">
+                            <label for="name">Confirmar senha</label>
+                            <input type="text" pInputText id="name" [(ngModel)]="password" required [ngClass]="{'ng-invalid ng-dirty' : !validatePassword}"/>
+                            <small class="ng-dirty ng-invalid" *ngIf="!validatePassword">Senhas não são iguais.</small>
+                        </div>
+                    </div>
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field" style="width: 100%;">
+                            <label for="password">Perfil</label>
+                            <p-multiSelect [options]="roleTypes" [(ngModel)]="userExternalCreateModel.roles" [ngClass]="{'ng-invalid ng-dirty' : requiredFieldArray(userExternalCreateModel.roles)}" placeholder="Selecionar o perfildo usuário" optionLabel="description" optionValue="value" display="chip" [showClear]="true" [filter]="false"></p-multiSelect>
+                            <small class="ng-dirty ng-invalid" *ngIf="requiredFieldArray(userExternalCreateModel.roles)">Perfil é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div style="display: inline-flex; width: 100%;">
+                        <div class="field">
+                            <webcam
+                                [height]="280"
+                                [width]="280"
+                                [trigger]="triggerObservable"
+                                (imageCapture)="handleImage($event)"
+                                *ngIf="showWebcam"
+                                [imageQuality]="1"
+                                (cameraSwitched)="cameraWasSwitched($event)"
+                                [videoOptions]="videoOptions"
+                                [allowCameraSwitch]="allowCameraSwitch"
+                                (initError)="handleInitError($event)">
+                            </webcam>
+                        </div>
+                        <div class="field flex align-items-center justify-content-center" style="padding-right: 20px; padding-left: 20px;">
+                            <button pButton pRipple label="Capturar imagem" icon="pi pi-user-camera" class="p-button-success mr-2" style="float: left;" (click)="triggerSnapshot()"></button>
+                        </div>
+                        <div *ngIf="userExternalCreateModel.encodedImage" class="field flex align-items-center justify-content-center" style=" width: 268px; height: 213px;">
+                            <img src="{{ userExternalCreateModel.encodedImage }}" style="border: 1px solid slateblue; width: 268px; height: 213px;">
+                        </div>
+                        <div *ngIf="!userExternalCreateModel.encodedImage" class="field flex align-items-center justify-content-center" style="border: 1px solid slateblue; width: 268px; height: 213px;">
+                            <i class="pi pi-user" style="color: slateblue; font-size: 5.5rem"></i>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="createUser()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deletecreateUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletecreateUserDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

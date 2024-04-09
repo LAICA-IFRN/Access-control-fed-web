@@ -1,0 +1,25 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo1' : 'logo1'}}.svg" alt="logo">
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <!-- <p-splitButton style="padding-top: 5px;" icon="pi pi-user" [model]="items"></p-splitButton> -->
+        <button class="p-link layout-topbar-button" [routerLink]="'/profile'">
+            <i class="pi pi-user"></i>
+            <span>Settings</span>
+        </button>
+        <button class="p-link layout-topbar-button" [pTooltip]="'Sair'" (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Sign out</span>
+        </button>
+    </div>
+</div>

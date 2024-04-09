@@ -1,0 +1,50 @@
+<div class="surface-0 flex justify-content-center">
+    <div id="home" class="landing-wrapper overflow-hidden">
+        <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
+            <div class="grid justify-content-center">
+                <div class="col-12 mt-8 mb-8 p-2 md:p-8" style="border-radius:20px; background:linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EFE1AF 0%, #C3DCFA 100%);">
+                    <div class="flex flex-column justify-content-center align-items-center text-center px-3 py-3 md:py-0">
+                        <div style="display: flex; justify-content: space-around; align-items: center; width: 100%;">
+                            <div class="field" style="width: 100%; padding-right: 20px;">
+                                <!-- <label for="pin">Pin</label><br> -->
+                                <input type="number" placeholder="Pin" pInputText id="pin" [(ngModel)]="invitationModel.pin" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(invitationModel.pin)}" style="width: 100%;"/>
+                                <small class="ng-dirty ng-invalid" *ngIf="requiredField(invitationModel.pin)">Pin é obrigatório.</small>
+                            </div>
+                            <div class="field" style="width: 100%;">
+                                <!-- <label for="password">Senha</label><br> -->
+                                <input #userEmail="ngModel" placeholder="Senha" type="text" pInputText id="password" aria-describedby="password_msg" [(ngModel)]="invitationModel.password" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(invitationModel.password)}" style="width: 100%;"/>
+                                <small id="password_msg" class="ng-dirty ng-invalid" *ngIf="requiredField(invitationModel.password)">Senha é obrigatória.</small>
+                            </div>
+                        </div>
+                        <div style="display: inline-flex; width: 100%;">
+                            <div class="field">
+                                <webcam
+                                    [height]="280"
+                                    [width]="280"
+                                    [trigger]="triggerObservable"
+                                    (imageCapture)="handleImage($event)"
+                                    *ngIf="showWebcam"
+                                    [imageQuality]="1"
+                                    (cameraSwitched)="cameraWasSwitched($event)"
+                                    [videoOptions]="videoOptions"
+                                    [allowCameraSwitch]="allowCameraSwitch"
+                                    (initError)="handleInitError($event)">
+                                </webcam>
+                            </div>
+                            <div class="field flex align-items-center justify-content-center" style="padding-right: 20px; padding-left: 20px;">
+                                <button pButton pRipple label="Capturar imagem" icon="pi pi-user-camera" class="p-button-success mr-2" style="float: left;" (click)="triggerSnapshot()"></button>
+                            </div>
+                            <div *ngIf="captureImage" class="field flex align-items-center justify-content-center" style=" width: 268px; height: 213px;">
+                                <img src="{{ captureImage }}" style="border: 1px solid slateblue; width: 268px; height: 213px;">
+                            </div>
+                            <div *ngIf="!captureImage" class="field flex align-items-center justify-content-center" style="border: 1px solid slateblue; width: 268px; height: 213px;">
+                                <i class="pi pi-user" style="color: slateblue; font-size: 5.5rem"></i>
+                            </div>
+                        </div>
+                        <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

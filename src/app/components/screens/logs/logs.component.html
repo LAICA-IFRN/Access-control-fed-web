@@ -1,0 +1,184 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel header="Header II">
+          <ng-template pTemplate="header">
+            <i class="pi pi-lock-open text-2xl" style="margin-right: 10px;"></i>
+            <span>Acesso</span>
+          </ng-template>
+          <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+              <div class="my-2"></div>
+            </ng-template>
+            <ng-template pTemplate="right">
+              <div class="mr-5px">
+                <p-dropdown [options]="environments" [(ngModel)]="selectedEnvironment" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Ambiente"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="commonUsers" [(ngModel)]="selectedCommonUser" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Usuário"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="logTypes" [(ngModel)]="selectedLogType" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Tipo"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="accessesTypes" [(ngModel)]="selectedAccessesType" optionLabel="name" [showClear]="true" placeholder="Chave"></p-dropdown>
+              </div>
+              <p-button icon="pi pi-search" severity="danger" class="p-button-danger" (click)="handleAccessLogSearch()"></p-button>
+            </ng-template>
+          </p-toolbar>
+          <p-table [value]="accessLogs.data" dataKey="id" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th>Mensagem</th>
+                <th>Tipo</th>
+                <th>Data</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accessLog let-expanded="expanded">
+              <tr>
+                <td>
+                  <button type="button" pButton pRipple [pRowToggler]="accessLog" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>{{accessLog.message}}</td>
+                <td><p-chip>{{ accessLog.type }}</p-chip></td>
+                <td>{{accessLog.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-accessLog>
+              <tr>
+                <td colspan="4">
+                  <div class="p-3">
+                    <div><strong>ID:</strong>{{accessLog.id}}</div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div class="flex-auto">
+            <p-paginator (onPageChange)="onAccessLogPageChange($event)" [first]="0" [rows]="accessLogs.pageSize" [totalRecords]="accessLogs.total" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Header II">
+          <ng-template pTemplate="header">
+            <i class="pi pi-folder-open text-2xl" style="margin-right: 10px;"></i>            
+            <span>Auditoria</span>
+          </ng-template>
+          <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+              <div class="my-2"></div>
+            </ng-template>
+            <ng-template pTemplate="right">
+              <div class="mr-5px">
+                <p-dropdown [options]="environments" [(ngModel)]="selectedEnvironment" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Ambiente"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="authorUsers" [(ngModel)]="selectedAuthorUser" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Autoria"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="commonUsers" [(ngModel)]="selectedCommonUser" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Envolvido"></p-dropdown>
+              </div>
+              <div class="mr-5px">
+                <p-dropdown [options]="logTypes" [(ngModel)]="selectedLogType" optionLabel="name" [showClear]="true" placeholder="Tipo"></p-dropdown>
+              </div>
+              <p-button icon="pi pi-search" severity="danger" (click)="handleAuditLogSearch()"></p-button>
+            </ng-template>
+          </p-toolbar>
+          <p-table [value]="auditLogs.data" dataKey="id" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th>Mensagem</th>
+                <th>Tópico</th>
+                <th>Tipo</th>
+                <th>Data</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-auditLog let-expanded="expanded">
+              <tr>
+                <td>
+                  <button type="button" pButton pRipple [pRowToggler]="auditLog" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td >{{auditLog.message}}</td>
+                <td >{{auditLog.topic}}</td>
+                <td ><p-chip>{{ auditLog.type }}</p-chip></td>
+                <td >{{auditLog.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-auditLog>
+              <tr>
+                <td colspan="4">
+                  <div class="p-3">
+                    <div><strong>ID:</strong>{{auditLog.id}}</div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div class="flex-auto">
+            <p-paginator (onPageChange)="onAuditLogPageChange($event)" [first]="0" [rows]="auditLogs.pageSize" [totalRecords]="auditLogs.total" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="grid">
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-lock-open text-2xl" style="margin-right: 10px;"></i>
+            <span>Acesso</span>
+          </ng-template>
+          <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+              hello world
+            </ng-template>
+          </p-toolbar>
+          <p-table [value]="accessLogs.data" dataKey="id" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th>Mensagem</th>
+                <th>Tipo</th>
+                <th>Data</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accessLog let-expanded="expanded">
+              <tr>
+                <td>
+                  <p-tableRowToggler [row]="accessLog"></p-tableRowToggler>
+                </td>
+                <td>{{ accessLog.message }}</td>
+                <td><p-chip>{{ accessLog.type }}</p-chip></td>
+                <td>{{ accessLog.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-accessLog>
+              <tr>
+                <td colspan="4">
+                  <div class="p-3">
+                    <div><strong>ID:</strong>{{accessLog.id}}</div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <div class="flex-auto">
+              <p-paginator [first]="0" [rows]="accessLogs.pageSize" [totalRecords]="accessLogs.total" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+            </div>
+          </p-table>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-folder-open text-2xl" style="margin-right: 10px;"></i>
+            <span>Auditoria</span>
+          </ng-template>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div> -->
