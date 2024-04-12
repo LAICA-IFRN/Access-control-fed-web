@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
         //https://laica.ifrn.edu.br/access-control/gateway
-  api: 'http://laica.ifrn.edu.br/access-control/gateway/' // 'http://localhost:8000/'
+  api: 'https://laica.ifrn.edu.br/access-control/gateway/' // 'http://localhost:8000/'
 };
 
 /*
