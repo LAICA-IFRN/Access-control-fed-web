@@ -10,17 +10,25 @@ import { LogsResponse } from '../models/logs/logs.response';
 })
 export class LogsService {
     private api: string;
+    private token: string;
 
     constructor(public httpClient: HttpClient) {
         this.api = environment.api + 'logs';
+        this.token = sessionStorage.getItem("AUTH_TOKE");
         //this.api = 'http://localhost:8000/logs';
     }
 
     public getAccessLogs(request: LogsFilter): Observable<LogsResponse> {
-        return this.httpClient.post<LogsResponse>(this.api + "/access", request);
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<LogsResponse>(this.api + "/access", request, { headers });
     }
 
     public getAuditLogs(request: LogsFilter): Observable<LogsResponse> {
-        return this.httpClient.post<LogsResponse>(this.api + "/audit", request);
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<LogsResponse>(this.api + "/audit", request, { headers });
     }
 }

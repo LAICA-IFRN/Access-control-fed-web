@@ -64,7 +64,6 @@ export class UsersComponent implements OnInit {
         this.filter.previous = 0;
         this.filter.next = 1;
         this.filter.pageSize = 10;
-        this.filter.where = {};
         this.filter.orderBy = {created_at: "desc"};
         this.users = new UserFilertResponse();
         this.users = await this.getUsers().then(data => data);

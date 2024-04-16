@@ -15,14 +15,17 @@ export class AuthService {
   constructor(private router: Router, private httpCliente: HttpClient) { }
 
   public login(email: string, password: string): Observable<any>{
-    return this.httpCliente.post<Observable<any>>(`${this.urlBase}${this.controllerToken}/user`, {
+    return this.httpCliente.post<Observable<any>>(`${this.urlBase}${this.controllerToken}/web`, {
       document: email,
       password: password
     });
   }
 
   public userDatail(id: string): Observable<any>{
-    return this.httpCliente.get<Observable<any>>(`${this.urlBase}users/${id}`);
+    const headers = {
+      Authorization: `Bearer ${this.token}`
+    };
+    return this.httpCliente.get<Observable<any>>(`${this.urlBase}users/${id}`, { headers });
   }
 
   public logout(): void {
