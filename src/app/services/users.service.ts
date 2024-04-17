@@ -24,7 +24,10 @@ export class UsersService {
     }
 
     public createInternalUser(request: UserInternalCreateModel): Observable<UsersInternalResponseModel> {
-        return this.httpClient.post<UsersInternalResponseModel>(this.api + "/invite", request);
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<UsersInternalResponseModel>(this.api + "/invite", request, { headers });
     }
 
     public createExternalUser(request: UserExternalCreateModel): Observable<any> {

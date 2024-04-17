@@ -393,8 +393,9 @@ export class UsersComponent implements OnInit {
                 if (!responseInternal) {
                     this.addErroMessage('Erro ao tentar cadastrar usuário. Favor tente novamente.');
                 } else {
-                    this.addSuccessMessage('E-mail para cadastro de aluno/servidor da instituição enviado com sucesso');
-                    this.hideDialog();
+                    this.addSuccessMessage('E-mail para cadastro de usuario interno da instituição enviado com sucesso');
+                    //this.hideDialog();
+                    this.restart();
                 }
                 break;
             case EXTERNO:

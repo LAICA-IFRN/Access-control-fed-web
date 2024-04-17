@@ -69,7 +69,7 @@
                     <div style="display: inline-flex; width: 100%;">
                         <div class="field" style="width: 100%;">
                             <label for="password">Perfil</label>
-                            <p-multiSelect [options]="roleTypes" [(ngModel)]="userInternalCreateModel.rolesToAdd" [ngClass]="{'ng-invalid ng-dirty' : requiredFieldArray(userInternalCreateModel.rolesToAdd)}" placeholder="Selecionar o perfildo usuário" optionLabel="description" optionValue="value" display="chip" [showClear]="true" [filter]="false"></p-multiSelect>
+                            <p-multiSelect [options]="roleTypes" [(ngModel)]="userInternalCreateModel.rolesToAdd" [ngClass]="{'ng-invalid ng-dirty' : requiredFieldArray(userInternalCreateModel.rolesToAdd)}" placeholder="Selecionar o perfil do usuário" optionLabel="description" optionValue="value" display="chip" [showClear]="true" [filter]="false"></p-multiSelect>
                             <small class="ng-dirty ng-invalid" *ngIf="requiredFieldArray(userInternalCreateModel.rolesToAdd)">Perfil é obrigatório.</small>
                         </div>
                     </div>
