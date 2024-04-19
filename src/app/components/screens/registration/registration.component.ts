@@ -8,10 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-    selector: 'app-landing',
-    templateUrl: './landing.component.html'
+    selector: 'app-registration',
+    templateUrl: './registration.component.html'
 })
-export class LandingComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
     private trigger: Subject<void> = new Subject();
     public webcamImage!: WebcamImage;
     private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();

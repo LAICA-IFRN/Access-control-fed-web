@@ -8,11 +8,16 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly urlBase: string = environment.api;
+  private readonly urlBase: string;
   private readonly controllerToken: string = "tokenize";
   public token: string;  
 
-  constructor(private router: Router, private httpCliente: HttpClient) { }
+  constructor(
+    private router: Router, 
+    private httpCliente: HttpClient,
+  ) {
+    this.urlBase = environment.api
+  }
 
   public login(email: string, password: string): Observable<any>{
     return this.httpCliente.post<Observable<any>>(`${this.urlBase}${this.controllerToken}/web`, {

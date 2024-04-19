@@ -11,14 +11,16 @@ import { DevicesDashboardDataModel } from '../models/devices/device-dashboard-da
 })
 export class DevicesService {
     private api: string;
-    private environmentService: any;
+    private deviceService: string;
+    private environmentService: string;
     private dashboardUrl: string;
     private token: string;
 
     constructor(public httpClient: HttpClient) {
-        this.api = environment.api + 'devices';
-        this.environmentService = environment.api + 'environments';
-        this.dashboardUrl = this.api + '/dashboard' //environment.api + 'dashboard';
+        this.api = environment.api;
+        this.deviceService = this.api + 'devices';
+        this.environmentService = this.api + 'environments';
+        this.dashboardUrl = this.deviceService + '/dashboard';
         this.token = sessionStorage.getItem("AUTH_TOKE");
     }
 
@@ -26,21 +28,21 @@ export class DevicesService {
         const headers = {
             Authorization: `Bearer ${this.token}`
         };
-        return this.httpClient.post<DevicePaginateResponse>(this.api + '/microcontrollers/paginate', request, { headers });
+        return this.httpClient.post<DevicePaginateResponse>(this.deviceService + '/microcontrollers/paginate', request, { headers });
     }
 
     public getRFIDs(request: DevicePaginateModel): Observable<DevicePaginateResponse> {
         const headers = {
             Authorization: `Bearer ${this.token}`
         };
-        return this.httpClient.post<DevicePaginateResponse>(this.api + '/rfid/paginate', request, { headers });
+        return this.httpClient.post<DevicePaginateResponse>(this.deviceService + '/rfid/paginate', request, { headers });
     }
 
     public getMobiles(request: DevicePaginateModel): Observable<DevicePaginateResponse> {
         const headers = {
             Authorization: `Bearer ${this.token}`
         };
-        return this.httpClient.post<DevicePaginateResponse>(this.api + '/mobile/paginate', request, { headers });
+        return this.httpClient.post<DevicePaginateResponse>(this.deviceService + '/mobile/paginate', request, { headers });
     }
 
     public getEnvironmentsForPendingMicrocontrollers(request: DevicePaginateModel): Observable<DevicePaginateResponse> {
@@ -54,7 +56,7 @@ export class DevicesService {
         const headers = {
             Authorization: `Bearer ${this.token}`
         };
-        return this.httpClient.post<any>(this.api + `/microcontrollers/activate?id=${microcontrollerId}&environmentId=${environmentId}`, {}, { headers });
+        return this.httpClient.post<any>(this.deviceService + `/microcontrollers/activate?id=${microcontrollerId}&environmentId=${environmentId}`, {}, { headers });
     }
 
     public getDataForDashboard(): Observable<DevicesDashboardDataModel> {

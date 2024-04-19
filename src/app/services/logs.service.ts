@@ -15,7 +15,6 @@ export class LogsService {
     constructor(public httpClient: HttpClient) {
         this.api = environment.api + 'logs';
         this.token = sessionStorage.getItem("AUTH_TOKE");
-        //this.api = 'http://localhost:8000/logs';
     }
 
     public getAccessLogs(request: LogsFilter): Observable<LogsResponse> {

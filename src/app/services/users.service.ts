@@ -20,7 +20,6 @@ export class UsersService {
     constructor(public httpClient: HttpClient) {
         this.api = environment.api + 'users';
         this.token = sessionStorage.getItem("AUTH_TOKE");
-        //this.api = 'http://localhost:8000/users';
     }
 
     public createInternalUser(request: UserInternalCreateModel): Observable<UsersInternalResponseModel> {
@@ -31,9 +30,11 @@ export class UsersService {
     }
 
     public createExternalUser(request: UserExternalCreateModel): Observable<any> {
-        return this.httpClient.post<any>(this.api, request).pipe(
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<any>(this.api, request, { headers }).pipe(
             catchError((err) => {
-                console.log(err);
                 return err;
             }
         ));

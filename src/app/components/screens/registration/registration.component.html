@@ -7,7 +7,14 @@
                         <div style="display: flex; justify-content: space-around; align-items: center; width: 100%;">
                             <div class="field" style="width: 100%; padding-right: 20px;">
                                 <!-- <label for="pin">Pin</label><br> -->
-                                <input type="number" placeholder="Pin" pInputText id="pin" [(ngModel)]="invitationModel.pin" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(invitationModel.pin)}" style="width: 100%;"/>
+                                <input type="number" placeholder="Pin" pInputText id="pin" [(ngModel)]="invitationModel.pin" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(invitationModel.pin)}" style="width: 100%;" maxlength="6"/>
+                                <!-- <p-inputNumber 
+                                    [(ngModel)]="invitationModel.pin" 
+                                    mode="decimal" [min]="6" [max]="6" 
+                                    inputId="withoutgrouping" [useGrouping]="false" 
+                                    [ngClass]="{'ng-invalid ng-dirty' : requiredField(invitationModel.pin)}" 
+                                    required placeholder="Pin" pInputText id="pin"
+                                ></p-inputNumber> -->
                                 <small class="ng-dirty ng-invalid" *ngIf="requiredField(invitationModel.pin)">Pin é obrigatório.</small>
                             </div>
                             <div class="field" style="width: 100%;">

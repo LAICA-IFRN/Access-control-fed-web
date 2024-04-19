@@ -16,7 +16,6 @@ export class EnvironmentsService {
   constructor(public httpClient: HttpClient) {
     this.api = environment.api + 'environments';
     this.token = sessionStorage.getItem("AUTH_TOKE");
-    //this.api = 'http://localhost:8000/environments';
   }
 
   public getEnvironments(request: EnvironmentsFilter): Observable<EnvironmentsResponse> {
