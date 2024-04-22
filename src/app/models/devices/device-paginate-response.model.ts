@@ -11,11 +11,10 @@ export class DevicePaginateResponse {
 }
 
 export class MobilePaginateResponseData {
-  id: number;
-  mac: string;
-  number: string;
-  active: boolean;
+  id: string;
   user_id: string;
+  user_name: string;
+  active: boolean;
   created_at: Date;
   updated_at: Date;
 }
