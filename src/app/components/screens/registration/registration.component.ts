@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
@@ -43,8 +43,19 @@ export class RegistrationComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         this.invitationModel = new InvitationModel();
         const queryParams = this.activatedRoute.queryParams;
-        this.invitationModel.userId = await queryParams['_value'].id;
-        this.invitationModel.token = await queryParams['_value'].token;
+        await this.handleQueryParams(queryParams);
+    }
+
+    async handleQueryParams(queryParams: Observable<Params>) {
+        const userId = await queryParams['_value'].id;
+        const token = await queryParams['_value'].token;
+
+        if (userId && token) {
+            this.invitationModel.userId = userId;
+            this.invitationModel.token = token;
+        } else {
+            this.router.navigate(['/notfound']);
+        }
     }
 
     requiredField(field: any): boolean {
