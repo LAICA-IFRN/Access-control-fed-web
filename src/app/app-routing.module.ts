@@ -16,7 +16,7 @@ import { authGuard } from './guards/auth.guard';
                 ]
             },
             { path: 'auth', loadChildren: () => import('./components/screens/auth/auth.module').then(m => m.AuthModule) },
-            { path: 'landing', loadChildren: () => import('./components/screens/registration/landing.module').then(m => m.LandingModule) },
+            { path: 'registration', loadChildren: () => import('./components/screens/registration/registration.module').then(m => m.RegistrationModule) },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })

@@ -15,38 +15,53 @@ import { InvitationModel } from '../models/users/invitation.model';
 })
 export class UsersService {
     private api: string;
+    private token: string;
 
     constructor(public httpClient: HttpClient) {
         this.api = environment.api + 'users';
-        //this.api = 'http://localhost:8000/users';
+        this.token = sessionStorage.getItem("AUTH_TOKE");
     }
 
     public createInternalUser(request: UserInternalCreateModel): Observable<UsersInternalResponseModel> {
-        return this.httpClient.post<UsersInternalResponseModel>(this.api + "/invite", request);
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<UsersInternalResponseModel>(this.api + "/invite", request, { headers });
     }
 
     public createExternalUser(request: UserExternalCreateModel): Observable<any> {
-        return this.httpClient.post<any>(this.api, request).pipe(
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<any>(this.api, request, { headers }).pipe(
             catchError((err) => {
-                console.log(err);
                 return err;
             }
         ));
     }
     
     public getUsers(request: UserFilertModel): Observable<UserFilertResponse> {
-        return this.httpClient.post<UserFilertResponse>(this.api + '/paginate', request);
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.post<UserFilertResponse>(this.api + "/paginate", request, { headers });
     }
     
     public getDataForDashboard(): Observable<UsersDashboardDataModel> {
-        return this.httpClient.get<any>(this.api + '/dashboard');
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.get<UsersDashboardDataModel>(this.api + '/dashboard', { headers });
     }
 
     public createUserAfterInvitation(request: InvitationModel): Observable<InvitationModel> {
-        return this.httpClient.post<any>(this.api + '/frequenter/invited', request);
+        return this.httpClient.post<any>(this.api + '/user/invited', request);
     }
 
     public getFrequenterUser(): Observable<any[]> {
-        return this.httpClient.get<any>(this.api + '/frequenter');
+        const headers = {
+            Authorization: `Bearer ${this.token}`
+        };
+        return this.httpClient.get<any>(this.api + '/frequenter', { headers });
     }
 }

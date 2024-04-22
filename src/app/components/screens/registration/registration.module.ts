@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandingRoutingModule } from './landing-routing.module';
-import { LandingComponent } from './landing.component';
+import { RegistrationRoutingModule } from './registration-routing.module';
+import { RegistrationComponent } from './registration.component';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
 import { WebcamModule } from 'ngx-webcam';
@@ -13,7 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 @NgModule({
     imports: [
         CommonModule,
-        LandingRoutingModule,
+        RegistrationRoutingModule,
         StyleClassModule,
         ButtonModule,
         WebcamModule,
@@ -22,6 +22,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
         FormsModule,
         InputNumberModule
     ],
-    declarations: [LandingComponent]
+    declarations: [RegistrationComponent]
 })
-export class LandingModule { }
+export class RegistrationModule { }

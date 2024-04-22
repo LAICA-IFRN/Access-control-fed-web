@@ -64,7 +64,6 @@ export class UsersComponent implements OnInit {
         this.filter.previous = 0;
         this.filter.next = 1;
         this.filter.pageSize = 10;
-        this.filter.where = {};
         this.filter.orderBy = {created_at: "desc"};
         this.users = new UserFilertResponse();
         this.users = await this.getUsers().then(data => data);
@@ -394,8 +393,9 @@ export class UsersComponent implements OnInit {
                 if (!responseInternal) {
                     this.addErroMessage('Erro ao tentar cadastrar usuário. Favor tente novamente.');
                 } else {
-                    this.addSuccessMessage('E-mail para cadastro de aluno/servidor da instituição enviado com sucesso');
-                    this.hideDialog();
+                    this.addSuccessMessage('E-mail para cadastro de usuario interno da instituição enviado com sucesso');
+                    //this.hideDialog();
+                    this.restart();
                 }
                 break;
             case EXTERNO:

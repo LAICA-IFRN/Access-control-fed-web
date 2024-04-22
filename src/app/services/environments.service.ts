@@ -11,19 +11,24 @@ import { EnvironmentsDashboardDataModel } from '../models/environments/environme
 })
 export class EnvironmentsService {
   private api: string;
+  private token: string;
 
   constructor(public httpClient: HttpClient) {
     this.api = environment.api + 'environments';
-    //this.api = 'http://localhost:8000/environments';
+    this.token = sessionStorage.getItem("AUTH_TOKE");
   }
 
   public getEnvironments(request: EnvironmentsFilter): Observable<EnvironmentsResponse> {
-    //console.log('getEnvironments', request);
-    
-    return this.httpClient.post<EnvironmentsResponse>(this.api + "/env/paginate", request);
+    const headers = {
+      Authorization: `Bearer ${this.token}`
+    };
+    return this.httpClient.post<EnvironmentsResponse>(this.api + "/paginate", request, { headers });
   }
 
   public getDashboardData(): Observable<EnvironmentsDashboardDataModel> {
-    return this.httpClient.get<EnvironmentsDashboardDataModel>(this.api + '/env/dashboard');
+    const headers = {
+      Authorization: `Bearer ${this.token}`
+    };
+    return this.httpClient.get<EnvironmentsDashboardDataModel>(this.api + '/dashboard', { headers });
   }
 }
