@@ -155,8 +155,8 @@
             <ng-template pTemplate="header">
               <tr>
                 <th style="width: 5rem"></th>
-                <th>Mac</th>
-                <th>Número</th>
+                <th>Identificador</th>
+                <th>Usuário</th>
                 <th>Criado em</th>
               </tr>
             </ng-template>
@@ -165,8 +165,8 @@
                 <td>
                   <button type="button" pButton pRipple [pRowToggler]="mobile" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                 </td>
-                <td >{{mobile.mac}}</td>
-                <td >{{mobile.number}}</td>
+                <td >{{mobile.id}}</td>
+                <td >{{mobile.user_name}}</td>
                 <td >{{mobile.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
               </tr>
             </ng-template>
