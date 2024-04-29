@@ -1,5 +1,5 @@
 build:
-	git pull
+	git stash && git pull
 	npm install
 	npm run build
 
@@ -8,5 +8,5 @@ copy:
 
 deploy: build copy
 
-test:
+cd:
 	ssh hilquias@laica.ifrn.edu.br 'cd /home/hilquias/deploy/Access-control-fed-web && make deploy'
