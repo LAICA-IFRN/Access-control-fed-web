@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AddFrequenterModel } from 'src/app/models/environments/add-frequenter.model';
+import { EvironmentModel } from 'src/app/models/environments/environment.model';
 import { EnvironmentsFilter } from 'src/app/models/environments/environments.filter';
 import { EnvironmentsResponse } from 'src/app/models/environments/environments.response';
+import { EnvironmentResponse } from 'src/app/models/environments/environment.response';
 import { EnvironmentsService } from 'src/app/services/environments.service';
 import { UsersService } from 'src/app/services/users.service';
+import { MessageService } from 'primeng/api';
 
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
 
@@ -16,6 +19,9 @@ export class EnvironmentsComponent implements OnInit {
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
   addUserDialog: boolean = false;
+  addEnvirionmentDialog: boolean = false;
+
+  environmentModel: EvironmentModel;
 
   addFrequenterModel: AddFrequenterModel;
   selectedEnvironmentToAddUser: any;
@@ -89,6 +95,8 @@ export class EnvironmentsComponent implements OnInit {
 
     this.selectedEnvironmentToAddUser = null;
     this.selectedFrequenter = null;
+
+    this.environmentModel = new EvironmentModel();
   }
 
   requiredField(field: any): boolean {
@@ -99,8 +107,24 @@ export class EnvironmentsComponent implements OnInit {
     return false;
 }
 
-  async createEnvironment() {
+  async createEnvironment(): Promise<EnvironmentResponse> {
+    this.submitted = true;
+    this.environmentModel.latitude = -4.8115434;
+    this.environmentModel.longitude = -35.2023686;
     console.log("create environment");
+    return new Promise((resolve) => {
+      this.environmentService.createEnvironment(this.environmentModel).subscribe({
+          next: (response: EnvironmentResponse) => {
+              resolve(response);
+          },
+          error: () => {
+              resolve(null);
+          }
+      })
+
+    
+  });
+    //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   }
 
   async searchEnvironments() {
@@ -132,6 +156,13 @@ export class EnvironmentsComponent implements OnInit {
   hideAddUserDialog() {
     this.addUserDialog = false;
   }
+  hideAddEnvirionmentDialog(){
+
+    // oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+    this.addEnvirionmentDialog = false;
+    this.submitted = false;
+  }
+
 
   handleEnvironmentDialog() {
     console.log("handle environment dialog");
@@ -144,10 +175,15 @@ export class EnvironmentsComponent implements OnInit {
   addUser() {
     this.addUserDialog = true;
   }
+  addEnvirionment(){
+    // oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+    this.addEnvirionmentDialog = true;
+  }
 
   onEnvironmentSelected() {
     console.log("on environment selected: ", this.selectedEnvironmentToAddUser);
   }
+
 
   private countEnvironmentUsers() {
     const usersCount = {};
@@ -197,6 +233,7 @@ export class EnvironmentsComponent implements OnInit {
 
     return frequenters;
   }
+
 
   private async getEnvironments(): Promise<EnvironmentsResponse> {
     return new Promise((resolve) => {
