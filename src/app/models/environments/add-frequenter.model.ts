@@ -4,6 +4,5 @@ export class AddFrequenterModel {
   userId: string;
   userName: string;
   environmentId: string;
-
   constructor() {}
 }

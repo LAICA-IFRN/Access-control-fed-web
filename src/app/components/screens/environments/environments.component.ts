@@ -6,6 +6,9 @@ import { EnvironmentsService } from 'src/app/services/environments.service';
 import { UsersService } from 'src/app/services/users.service';
 
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
+const PERMANENT = 1, DAY = 2, TIME = 3;
+const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5
+
 
 @Component({
   selector: 'app-environments',
@@ -16,10 +19,12 @@ export class EnvironmentsComponent implements OnInit {
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
   addUserDialog: boolean = false;
-
   addFrequenterModel: AddFrequenterModel;
   selectedEnvironmentToAddUser: any;
-
+  
+  addTimeOptions: any[] = [{label: 'PERMANENTE', value: PERMANENT}, { label: 'Dia', value: DAY }, { label: 'TIME', value: TIME }]
+  addTimeOptionSelected: number = PERMANENT | DAY | TIME
+  
   environments: EnvironmentsResponse;
   selectedEnvironment: any;
 
@@ -29,6 +34,7 @@ export class EnvironmentsComponent implements OnInit {
   environmentsManagers: any;
   selectedFrequenter: any;
   selectedManager: any;
+  selectedShift: any;
 
   frequenters: any;
   managers: any;
@@ -39,9 +45,9 @@ export class EnvironmentsComponent implements OnInit {
 
   constructor(
     private environmentService: EnvironmentsService,
-    private userService: UsersService
-  ) { }
-
+    private userService: UsersService,
+  ) {}
+  
   async ngOnInit() {
     this.filter = new EnvironmentsFilter();
     this.filter.previous = 0;
@@ -136,19 +142,23 @@ export class EnvironmentsComponent implements OnInit {
   handleEnvironmentDialog() {
     console.log("handle environment dialog");
   }
-
+  
   changeUserAddOptions(event: any): void {
     console.log('change user ddd options');
   }
 
+  changeTimeAddOptions(event: any): void {
+    console.log(this.addTimeOptionSelected);
+  }
+  
   addUser() {
     this.addUserDialog = true;
   }
-
+  
   onEnvironmentSelected() {
     console.log("on environment selected: ", this.selectedEnvironmentToAddUser);
   }
-
+  
   private countEnvironmentUsers() {
     const usersCount = {};
     this.environments.data.forEach(environment => {
@@ -156,7 +166,7 @@ export class EnvironmentsComponent implements OnInit {
     });
     return usersCount;
   }
-
+  
   private extratcEnvironmentFrequenters() {
     const frequenters = {};
     this.environments.data.forEach(environment => {
@@ -169,7 +179,7 @@ export class EnvironmentsComponent implements OnInit {
     });
     return frequenters;
   }
-
+  
   private extractEnvironmentManagers() {
     const managers = {};
     this.environments.data.forEach(environment => {
@@ -182,7 +192,7 @@ export class EnvironmentsComponent implements OnInit {
     });
     return managers;
   }
-
+  
   private getFrequenters() {
     const frequenters: any = new Promise((resolve) => {
       this.userService.getFrequenterUser().subscribe({
@@ -194,7 +204,6 @@ export class EnvironmentsComponent implements OnInit {
         }
       })
     });
-
     return frequenters;
   }
 
