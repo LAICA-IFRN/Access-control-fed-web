@@ -91,7 +91,6 @@ export class EnvironmentsComponent implements OnInit {
         }
       })
     });
-    //console.log(this.frequenters);
 
     this.selectedEnvironmentToAddUser = null;
     this.selectedFrequenter = null;
@@ -124,7 +123,6 @@ export class EnvironmentsComponent implements OnInit {
 
     
   });
-    //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   }
 
   async searchEnvironments() {
@@ -158,7 +156,6 @@ export class EnvironmentsComponent implements OnInit {
   }
   hideAddEnvirionmentDialog(){
 
-    // oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
     this.addEnvirionmentDialog = false;
     this.submitted = false;
   }
@@ -176,7 +173,6 @@ export class EnvironmentsComponent implements OnInit {
     this.addUserDialog = true;
   }
   addEnvirionment(){
-    // oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
     this.addEnvirionmentDialog = true;
   }
 
