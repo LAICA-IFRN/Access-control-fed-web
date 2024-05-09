@@ -7,7 +7,7 @@ import { UsersService } from 'src/app/services/users.service';
 
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
 const PERMANENT = 1, DAY = 2, TIME = 3;
-const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5
+const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5;
 
 
 @Component({
@@ -16,15 +16,23 @@ const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5
   styleUrls: ['./environments.component.scss']
 })
 export class EnvironmentsComponent implements OnInit {
+
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
   addUserDialog: boolean = false;
   addFrequenterModel: AddFrequenterModel;
   selectedEnvironmentToAddUser: any;
   
-  addTimeOptions: any[] = [{label: 'PERMANENTE', value: PERMANENT}, { label: 'Dia', value: DAY }, { label: 'TIME', value: TIME }]
-  addTimeOptionSelected: number = PERMANENT | DAY | TIME
+  addTimeOptions: any[] = [{ label: 'Permanente', value: PERMANENT}, { label: 'Por Turno', value: DAY }, { label: 'Por Horário', value: TIME }]
+  addTimeOptionsSelected: number = PERMANENT | DAY | TIME
   
+  addDayOptions: any[] = [{ day: 'Segunda-feira', value1: MONDAY }, { day: 'Terça-feira', value1: TUESDAY }, { day: 'Quarta-feira', value1: WEDNESDAY }, { day: 'Quinta-feira', value1: THURSDAY }, { day: 'Sexta-feira', value1: FRIDAY }];
+
+  addMorningTurn: any[] = [{ turnM: 'Manhã', valueM: 1 }, {turnM: 'Manhã', valueM: 2 }, {turnM: 'Manhã', valueM: 3 }, {turnM: 'Manhã', valueM: 4}, {turnM: 'Manhã', valueM: 5}];
+  addAfternoonTurn: any[] = [{ turnA: 'Tarde', valueA: 1 }, {turnA: 'Tarde', valueA: 2 }, {turnA: 'Tarde', valueA: 3 }, {turnA: 'Tarde', valueA: 4}, {turnA: 'Tarde', valueA: 5}];
+  addNightTurn: any[] = [{ turnN: 'Noite', valueN: 1 }, {turnN: 'Noite', valueN: 2 }, {turnN: 'Noite', valueN: 3 }, {turnN: 'Noite', valueN: 4}, {turnN: 'Noite', valueN: 5}];
+
+
   environments: EnvironmentsResponse;
   selectedEnvironment: any;
 
@@ -82,6 +90,8 @@ export class EnvironmentsComponent implements OnInit {
 
     this.addUserOptionSelected = FREQUENTER;
     this.addFrequenterModel = new AddFrequenterModel();
+    
+    this.addTimeOptionsSelected = 0
 
     this.frequenters = await this.getFrequenters().then(data => {
       return data.map(frequenter => {
@@ -145,10 +155,10 @@ export class EnvironmentsComponent implements OnInit {
   
   changeUserAddOptions(event: any): void {
     console.log('change user ddd options');
+    console.log(this.addUserOptionSelected);
   }
 
   changeTimeAddOptions(event: any): void {
-    console.log(this.addTimeOptionSelected);
   }
   
   addUser() {

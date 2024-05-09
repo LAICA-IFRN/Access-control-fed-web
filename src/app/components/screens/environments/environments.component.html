@@ -88,13 +88,20 @@
             </div>
             <div>
               <div class="field" style="width: 100%; height: 680px; padding-right: 20px;">
-                <label for="time">Selecione seu horário</label>
-                <p-dropdown [options]="addTimeOptions" [(ngModel)]="addTimeOptionSelected" (onChange)="changeTimeAddOptions($event)" optionLabel="label" required id="addTimeOptions" placeholder="Selecione um turno" [ngClass]="{'ng-invalid ng-dirty' : requiredField(selectedShift)}">
+                <label for="time">Selecione sua frequêcia no laboratório</label>
+                <p-dropdown [options]="addTimeOptions" [(ngModel)]="addTimeOptionsSelected" (onChange)="changeTimeAddOptions($event)" required id="addTimeOptions" placeholder="Escolha uma opção:" [ngClass]="{'ng-invalid ng-dirty' : requiredField(addTimeOptionsSelected)}">
                 </p-dropdown>
-                <small class="ng-dirty ng-invalid" *ngIf="requiredField(selectedShift)">Turno é obrigatório.</small>
-                <div *ngIf="addTimeOptionSelected === DAY">
-                  <h2>!!!!!!!!!!!!!</h2>
-              </div>
+                <small class="ng-dirty ng-invalid" *ngIf="requiredField(addTimeOptionsSelected)">Turno é obrigatório.</small>
+                <div *ngIf="addTimeOptionsSelected === 2">
+                    <div style="display: flex; align-items: center; justify-content: center;"><p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p></div>
+                    <p-selectButton [options]="addDayOptions" [(ngModel)]="value1" multiple="true" optionLabel="day" optionValue="value1" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    <p-selectButton [options]="addMorningTurn" [(ngModel)]="valueM" multiple="true" optionLabel="turnM" optionValue="valueM" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="valueA" multiple="true" optionLabel="turnA" optionValue="valueA" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    <p-selectButton [options]="addNightTurn" [(ngModel)]="valueN" multiple="true" optionLabel="turnN" optionValue="valueN" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                </div>
+                <div *ngIf="addTimeOptionsSelected === 3">
+                  
+                </div>
               </div>
             </div>
           </div>
