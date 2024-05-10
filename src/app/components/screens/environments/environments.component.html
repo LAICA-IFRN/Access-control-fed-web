@@ -136,8 +136,8 @@
 
                 <div *ngIf="addTimeOptionsSelected === 3">
                   <div style="display: flex; justify-content: flex-end; flex-wrap: wrap; flex-direction: row-reverse; width: 50%;">
-                    <div style="display: flex; flex-direction: column;">
-                      <p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p>
+                    <div style="display: flex; flex-direction: column; padding-top: 1rem;">
+                      <label>Selecione o dia</label>
                       <p-multiSelect [style]="{'width': '26rem'}" [options]="addDayOptions" [(ngModel)]="addDayOptionsSelected" [filter]="false" optionLabel="day" placeholder="Escolha o dia:">
                       </p-multiSelect>
                     </div>
