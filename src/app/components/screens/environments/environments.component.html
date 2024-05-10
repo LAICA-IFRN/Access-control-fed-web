@@ -107,6 +107,7 @@
           <div class="field" style="width: 50%;">
               <label for="name">Nome do ambiente</label>
               <input type="text" style="width: 100%;" pInputText id="name" [(ngModel)]="environmentModel.name" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(environmentModel.name)}"/> 
+              
               <small class="ng-dirty ng-invalid" *ngIf="requiredField(environmentModel.name)">Nome do ambiente é obrigatório.</small> 
           </div>
           
@@ -115,7 +116,7 @@
           <div class="field" style="width: 50%;">
               <label for="description">Descrição</label>
 
-              <input type="text" style="width: 100%;"  pInputText id="description" [(ngModel)]="environmentModel.description" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(environmentModel.name)}"/> 
+              <input type="text" style="width: 100%;"  pInputText id="description" [(ngModel)]="environmentModel.description" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(environmentModel.description)}"/> 
               <small class="ng-dirty ng-invalid" *ngIf="requiredField(environmentModel.description)">Descrição obrigatório.</small> 
             </div>
         </div>
