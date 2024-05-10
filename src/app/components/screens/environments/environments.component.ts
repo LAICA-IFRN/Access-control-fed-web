@@ -211,6 +211,7 @@ async resCreateEnvironment(): Promise<void>{
   }
   addEnvirionment(){
     this.addEnvirionmentDialog = true;
+    this.getLocation();
   }
 
   onEnvironmentSelected() {
