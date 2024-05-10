@@ -38,6 +38,9 @@ export class EnvironmentsComponent implements OnInit {
   addDayOptions: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }, { day: SATURDAY, value1: SATURDAY }, { day: SUNDAY, value1: SUNDAY}];
   addDayOptionsSelected: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY;
 
+  addDayOptions2: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }, { day: SATURDAY, value1: SATURDAY }, { day: SUNDAY, value1: SUNDAY}];
+  addDayOptionsSelected2: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY
+
   addMorningTurn: any[] = [{ label: 'Manhã', value: 1 }];
   addAfternoonTurn: any[] = [{ label: 'Tarde', value: 1 }];
   addNightTurn: any[] = [{ label: 'Noite', value: 1 }];
@@ -52,6 +55,8 @@ export class EnvironmentsComponent implements OnInit {
 
   startPeriod: Date;
   endPeriod: Date;
+  date3: Date
+  date4: Date
 
   environmentsToSelect: any;
   usersCount: any;

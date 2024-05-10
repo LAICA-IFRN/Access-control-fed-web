@@ -134,8 +134,29 @@
                   </div>
                 </div>
                 <div *ngIf="addTimeOptionsSelected === 3">
-                  <div style="display: flex; align-items: center; justify-content: center;"><p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p></div>
-                  <p-selectButton [options]="addDayOptions" [(ngModel)]="value1" multiple="true" optionLabel="day" optionValue="value1" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                  <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p>
+                    <p-multiSelect [style]="{'width': '32.55rem'}" [options]="addDayOptions" [(ngModel)]="addDayOptionsSelected" [filter]="false" optionLabel="day" placeholder="Escolha o dia:">
+                    </p-multiSelect>
+                  </div>
+                  <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                      <span style="margin-top: 1rem;">Selecione o horário de inicio</span>
+                    <p-calendar  [(ngModel)]="date3" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                      <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                          <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
+                      </ng-template>>
+                    </p-calendar>
+                  </div>
+                  <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <span style="margin-top: 1rem;">Selecione o horário de saída</span>
+                  <p-calendar  [(ngModel)]="date4" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                    <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                        <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
+                    </ng-template>>
+                  </p-calendar>
+                </div>
+                  </div>
                 </div>
               </div>
             </div>
