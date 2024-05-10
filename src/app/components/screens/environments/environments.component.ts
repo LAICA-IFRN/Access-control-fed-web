@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddFrequenterModel } from 'src/app/models/environments/add-frequenter.model';
+import { AddFrequenterModel, DayOptions } from 'src/app/models/environments/add-frequenter.model';
 import { EnvironmentsFilter } from 'src/app/models/environments/environments.filter';
 import { EnvironmentsResponse } from 'src/app/models/environments/environments.response';
 import { EnvironmentsService } from 'src/app/services/environments.service';
@@ -7,7 +7,12 @@ import { UsersService } from 'src/app/services/users.service';
 
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
 const PERMANENT = 1, DAY = 2, TIME = 3;
-const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5;
+
+export const MONDAY = "Segunda-feira";
+export const TUESDAY = "Terça-feira";
+export const WEDNESDAY = "Quarta-feira";
+export const THURSDAY = "Quinta-feira";
+export const FRIDAY = "Sexta-feira";
 
 
 @Component({
@@ -16,6 +21,8 @@ const MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3, THURSDAY = 4, FRIDAY = 5;
   styleUrls: ['./environments.component.scss']
 })
 export class EnvironmentsComponent implements OnInit {
+
+  dayOptions;
 
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
@@ -26,15 +33,23 @@ export class EnvironmentsComponent implements OnInit {
   addTimeOptions: any[] = [{ label: 'Permanente', value: PERMANENT}, { label: 'Por Turno', value: DAY }, { label: 'Por Horário', value: TIME }]
   addTimeOptionsSelected: number = PERMANENT | DAY | TIME
   
-  addDayOptions: any[] = [{ day: 'Segunda-feira', value1: MONDAY }, { day: 'Terça-feira', value1: TUESDAY }, { day: 'Quarta-feira', value1: WEDNESDAY }, { day: 'Quinta-feira', value1: THURSDAY }, { day: 'Sexta-feira', value1: FRIDAY }];
+  addDayOptions: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }];
+  addDayOptionsSelected: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY;
 
-  addMorningTurn: any[] = [{ turnM: 'Manhã', valueM: 1 }, {turnM: 'Manhã', valueM: 2 }, {turnM: 'Manhã', valueM: 3 }, {turnM: 'Manhã', valueM: 4}, {turnM: 'Manhã', valueM: 5}];
-  addAfternoonTurn: any[] = [{ turnA: 'Tarde', valueA: 1 }, {turnA: 'Tarde', valueA: 2 }, {turnA: 'Tarde', valueA: 3 }, {turnA: 'Tarde', valueA: 4}, {turnA: 'Tarde', valueA: 5}];
-  addNightTurn: any[] = [{ turnN: 'Noite', valueN: 1 }, {turnN: 'Noite', valueN: 2 }, {turnN: 'Noite', valueN: 3 }, {turnN: 'Noite', valueN: 4}, {turnN: 'Noite', valueN: 5}];
+  addMorningTurn: any[] = [{ label: 'Manhã', value: 1 }];
+  addAfternoonTurn: any[] = [{ label: 'Tarde', value: 1 }];
+  addNightTurn: any[] = [{ label: 'Noite', value: 1 }];
 
+  MorningOption = { id: 1, options: ['Morning']};
+  AfternoonOption = { id: 2, options: ['Afternoon']};
+  NightOption = { id: 3, options: ['Night']};
+  selectDay = { id: true, options: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']};
 
   environments: EnvironmentsResponse;
   selectedEnvironment: any;
+
+  startPeriod: Date;
+  endPeriod: Date;
 
   environmentsToSelect: any;
   usersCount: any;
@@ -90,8 +105,10 @@ export class EnvironmentsComponent implements OnInit {
 
     this.addUserOptionSelected = FREQUENTER;
     this.addFrequenterModel = new AddFrequenterModel();
+    this.addFrequenterModel.access = [];
     
     this.addTimeOptionsSelected = 0
+    this.addDayOptionsSelected =""
 
     this.frequenters = await this.getFrequenters().then(data => {
       return data.map(frequenter => {
@@ -105,6 +122,15 @@ export class EnvironmentsComponent implements OnInit {
 
     this.selectedEnvironmentToAddUser = null;
     this.selectedFrequenter = null;
+
+    this.dayOptions = new DayOptions();
+    this.dayOptions.monday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.tuesday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.wednesday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.thursday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.friday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.saturday = {morning: null, afternoon: null, night: null, selected: false};
+    this.dayOptions.sunday = {morning: null, afternoon: null, night: null, selected: false};
   }
 
   requiredField(field: any): boolean {
@@ -149,16 +175,80 @@ export class EnvironmentsComponent implements OnInit {
     this.addUserDialog = false;
   }
 
-  handleEnvironmentDialog() {
-    console.log("handle environment dialog");
+  selectIntDay(dia: string){
+    if (dia === "monday"){
+      return 1;
+    } else if (dia === 'tuesday'){
+      return 2;
+    } else if (dia === "wednesday"){
+      return 3;
+    } else if (dia === "thursday"){
+      return 4;
+    } else if (dia === "friday"){
+      return 5;
+    } else if (dia === "Saturday"){
+      return 6;
+    } else {
+      return 0;
+    }  
+  }
+
+  async handleEnvironmentDialog() {
+    //iterar sobre dayOptions
+    for (const key in this.dayOptions) {
+      if (this.dayOptions.hasOwnProperty(key)) {
+        if (this.dayOptions[key].morning){
+          const element = {
+            startTime: '00:00:00',
+            endTime: '12:00:00',
+            days: [
+              this.selectIntDay(key)
+            ]
+          }
+          this.addFrequenterModel.access.push(element);
+        }
+          if (this.dayOptions[key].afternoon){
+            const element = {
+              startTime: '12:00:00',
+              endTime: '18:00:00',
+              days: [
+                this.selectIntDay(key)
+              ]
+            }
+            this.addFrequenterModel.access.push(element);
+          }
+            if (this.dayOptions[key].night){
+              const element = {
+                startTime: '18:00:00',
+                endTime: '23:59:59',
+                days: [
+                  this.selectIntDay(key)
+                ]
+              }
+              this.addFrequenterModel.access.push(element);
+            } 
+      }
+    }
+
+    this.addFrequenterModel.environmentId = this.selectedEnvironmentToAddUser.id
+    this.addFrequenterModel.userId = this.selectedFrequenter.label
+    this.addFrequenterModel.userName = this.selectedFrequenter.value
+    this.addFrequenterModel.startPeriod = this.startPeriod.toLocaleDateString().split("/").reverse().join("/")
+    this.addFrequenterModel.endPeriod = this.endPeriod.toLocaleDateString().split("/").reverse().join("/")
+
+    console.log(this.addFrequenterModel);
+
+    const response = await this.addFrequenter()
+    console.log(response)
+    
   }
   
   changeUserAddOptions(event: any): void {
     console.log('change user ddd options');
-    console.log(this.addUserOptionSelected);
   }
 
-  changeTimeAddOptions(event: any): void {
+  changeTimeAddOptions(event: any) {
+    console.log(this.addDayOptionsSelected);
   }
   
   addUser() {
@@ -224,6 +314,21 @@ export class EnvironmentsComponent implements OnInit {
           resolve(response);
         },
         error: () => {
+          resolve(null);
+        }
+      })
+    });
+  }
+
+  private async addFrequenter(): Promise<any> {
+    return new Promise((resolve) => {
+      this.environmentService.createAddFrequenter(this.addFrequenterModel).subscribe({
+        next: (response: any) => {
+          console.log(response)
+          resolve(response);
+        },
+        error: (error) => {
+          console.log(error)
           resolve(null);
         }
       })
