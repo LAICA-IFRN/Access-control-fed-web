@@ -7,5 +7,7 @@ import { EnvironmentsComponent } from './environments.component';
     { path: '', component: EnvironmentsComponent }
   ])],
   exports: [RouterModule]
+
+  
 })
 export class EnvironmentsRoutingModule {}

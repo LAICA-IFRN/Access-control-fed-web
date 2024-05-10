@@ -8,13 +8,13 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PaginatorModule } from 'primeng/paginator';
 import { HttpClientModule } from '@angular/common/http';
+import { InputTextModule } from 'primeng/inputtext';
 import { EnvironmentsRoutingModule } from './environments-routing.module';
 import { EnvironmentsComponent } from './environments.component';
 import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { CalendarModule } from 'primeng/calendar';
-
+import { CalendarModule } from 'primeng/calendar'; 
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +23,7 @@ import { CalendarModule } from 'primeng/calendar';
     ButtonModule,
     ToastModule,
     ToolbarModule,
+    InputTextModule,
     MultiSelectModule,
     PaginatorModule,
     HttpClientModule,

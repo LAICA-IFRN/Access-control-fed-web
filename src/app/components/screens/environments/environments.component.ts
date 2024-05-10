@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AddFrequenterModel } from 'src/app/models/environments/add-frequenter.model';
+import { EvironmentModel } from 'src/app/models/environments/environment.model';
 import { EnvironmentsFilter } from 'src/app/models/environments/environments.filter';
 import { EnvironmentsResponse } from 'src/app/models/environments/environments.response';
+import { EnvironmentResponse } from 'src/app/models/environments/environment.response';
 import { EnvironmentsService } from 'src/app/services/environments.service';
 import { UsersService } from 'src/app/services/users.service';
+import { MessageService } from 'primeng/api';
 
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
 
@@ -16,6 +19,9 @@ export class EnvironmentsComponent implements OnInit {
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
   addUserDialog: boolean = false;
+  addEnvirionmentDialog: boolean = false;
+
+  environmentModel: EvironmentModel;
 
   addFrequenterModel: AddFrequenterModel;
   selectedEnvironmentToAddUser: any;
@@ -32,12 +38,12 @@ export class EnvironmentsComponent implements OnInit {
 
   frequenters: any;
   managers: any;
-
   submitted: boolean = false;
 
   filter: EnvironmentsFilter;
 
   constructor(
+    private messageService: MessageService,
     private environmentService: EnvironmentsService,
     private userService: UsersService
   ) { }
@@ -85,10 +91,11 @@ export class EnvironmentsComponent implements OnInit {
         }
       })
     });
-    //console.log(this.frequenters);
 
     this.selectedEnvironmentToAddUser = null;
     this.selectedFrequenter = null;
+
+    this.environmentModel = new EvironmentModel();
   }
 
   requiredField(field: any): boolean {
@@ -99,9 +106,60 @@ export class EnvironmentsComponent implements OnInit {
     return false;
 }
 
-  async createEnvironment() {
-    console.log("create environment");
+  public restart() {
+    location.reload();
   }
+
+
+  async getLocation() {
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+
+        this.environmentModel.latitude = position.coords.latitude
+        this.environmentModel.longitude = position.coords.longitude
+            
+    });
+  } else {
+    console.log('Geolocalização não é suportada pelo seu navegador.');
+    this.environmentModel.latitude = 0.0000000,
+    this.environmentModel.latitude = 0.0000000
+
+  }
+
+}
+
+async createEnvironment(): Promise<EnvironmentResponse> {
+  this.submitted = true;
+  return new Promise((resolve) => {
+    this.environmentService.createEnvironment(this.environmentModel).subscribe({
+        next: (response: EnvironmentResponse) => {
+            this.environmentModel.name = "";
+            this.environmentModel.description = "";
+            this.addSuccessMessage('Novo ambiente criado com sucesso');
+            resolve(response);
+        },
+        error: () => {
+            this.addErroMessage('Erro ao tentar criar novo ambiente');
+            resolve(null);
+        }
+    })
+
+  
+});
+
+
+}
+
+async resCreateEnvironment(): Promise<void>{
+  const responseEnv = await this.createEnvironment();
+  if (!responseEnv) {
+    this.addErroMessage('Erro ao tentar criar novo ambiente.');
+  } else {
+    this.addSuccessMessage('Novo ambiente criado com sucesso.');
+  }
+}
 
   async searchEnvironments() {
     console.log("search environments");
@@ -132,6 +190,12 @@ export class EnvironmentsComponent implements OnInit {
   hideAddUserDialog() {
     this.addUserDialog = false;
   }
+  hideAddEnvirionmentDialog(){
+
+    this.addEnvirionmentDialog = false;
+    this.submitted = false;
+  }
+
 
   handleEnvironmentDialog() {
     console.log("handle environment dialog");
@@ -144,10 +208,15 @@ export class EnvironmentsComponent implements OnInit {
   addUser() {
     this.addUserDialog = true;
   }
+  addEnvirionment(){
+    this.addEnvirionmentDialog = true;
+    this.getLocation();
+  }
 
   onEnvironmentSelected() {
     console.log("on environment selected: ", this.selectedEnvironmentToAddUser);
   }
+
 
   private countEnvironmentUsers() {
     const usersCount = {};
@@ -198,6 +267,7 @@ export class EnvironmentsComponent implements OnInit {
     return frequenters;
   }
 
+
   private async getEnvironments(): Promise<EnvironmentsResponse> {
     return new Promise((resolve) => {
       this.environmentService.getEnvironments(this.filter).subscribe({
@@ -220,5 +290,14 @@ export class EnvironmentsComponent implements OnInit {
     this.usersCount = this.countEnvironmentUsers();
     this.environmentFrequenters = this.extratcEnvironmentFrequenters();
     this.environmentsManagers = this.extractEnvironmentManagers();
+  }
+
+
+  private addErroMessage(msg: string): void {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: msg, life: 3000 });
+  }
+
+  private addSuccessMessage(msg: string): void {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: msg, life: 3000 });
   }
 }

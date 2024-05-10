@@ -4,7 +4,7 @@
       <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
-            <button pButton pRipple class="p-button-success mr-2 add-env-button" (click)="createEnvironment()">
+            <button pButton pRipple class="p-button-success mr-2 add-env-button" (click)="addEnvirionment()">
               <i class="pi pi-building">+ Adicionar</i>
             </button>
           </div>
@@ -30,7 +30,7 @@
             <td>
               <div style="display: flex; align-items: center; ">
                 
-                <button class="p-button p-button-success action-btn" (click)="addUser(environment.id)">
+                <button class="p-button p-button-success action-btn" (click)="addUser(environment.id)"> 
                   <!-- <i class="pi pi-user-plus"> Vincular</i> -->
                   <i class="pi pi-user-plus"></i>
                 </button>
@@ -47,6 +47,7 @@
         <p-paginator [first]="0" [rows]="environments.pageSize" [totalRecords]="environments.total" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
       </div>
 
+
       <p-dialog [(visible)]="selectedEnvironment" [style]="{width: '800px'}" header="Detalhes" [modal]="true" class="p-fluid">
         {{ selectedEnvironment?.id }}
         <ng-template pTemplate="footer">
@@ -54,6 +55,7 @@
           <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="handleEnvironmentDialog()"></button>
         </ng-template>
       </p-dialog>
+
       <p-dialog [(visible)]="addUserDialog" [style]="{width: '800px'}" header="Vincular usuário" [modal]="true" class="p-fluid">
         <p-toolbar styleClass="mb-4">
           <div class="my-2 select-b-add-user">
@@ -99,6 +101,33 @@
           <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="handleEnvironmentDialog()"></button>
         </ng-template>
       </p-dialog>
+
+      <p-dialog [(visible)]="addEnvirionmentDialog" [style]="{width: '800px'}" header="Criar Ambiente" [modal]="true" class="p-fluid">
+        <div style="display: inline-flex; width: 100%;">
+          <div class="field" style="width: 50%;">
+              <label for="name">Nome do ambiente</label>
+              <input type="text" style="width: 100%;" pInputText id="name" [(ngModel)]="environmentModel.name" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(environmentModel.name)}"/> 
+              
+              <small class="ng-dirty ng-invalid" *ngIf="requiredField(environmentModel.name)">Nome do ambiente é obrigatório.</small> 
+          </div>
+          
+        </div>
+        <div style="display: inline-flex; width: 100%;">
+          <div class="field" style="width: 50%;">
+              <label for="description">Descrição</label>
+
+              <input type="text" style="width: 100%;"  pInputText id="description" [(ngModel)]="environmentModel.description" required [ngClass]="{'ng-invalid ng-dirty' : requiredField(environmentModel.description)}"/> 
+              <small class="ng-dirty ng-invalid" *ngIf="requiredField(environmentModel.description)">Descrição obrigatório.</small> 
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideAddEnvirionmentDialog()"></button>
+          <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="resCreateEnvironment()"></button>
+        </ng-template>
+      </p-dialog>
+
+
     </div>
   </div>
 </div>
