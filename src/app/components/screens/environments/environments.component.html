@@ -94,33 +94,42 @@
                 <small class="ng-dirty ng-invalid" *ngIf="requiredField(addTimeOptionsSelected)">Turno é obrigatório.</small>
                 <div *ngIf="addTimeOptionsSelected === 2">
                    <div style="display: flex; align-items: center; justify-content: center;"><p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p></div>
-                   <p-selectButton [style]="{'color':'black'}" [options]="addDayOptions" [(ngModel)]="addDayOptionsSelected" multiple="true" optionLabel="day" optionValue="value1" (onChange)="changeTimeAddOptions($event)" [disabled]="true"></p-selectButton>
-                   <div style="display: flex; align-items: center; justify-content: center;">
-                    <div style="display: flex; flex-direction: column;">
-                      
+                   <p-selectButton [options]="addDayOptions" [(ngModel)]="addDayOptionsSelected" multiple="true" optionLabel="day" optionValue="value1" (onChange)="changeTimeAddOptions($event)" [disabled]="true"></p-selectButton>
+                  <div style="display: flex; align-items: center; justify-content: center;">
+                    <div style="display: flex; flex-direction: column; width: 100%;">
                     <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.monday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.monday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.monday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                     </div>
-                    <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; flex-direction: column; width: 100%">
                       <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.tuesday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.tuesday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.tuesday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                     </div>
-                    <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; flex-direction: column; width: 100%;">
                       <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.wednesday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.wednesday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                       <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.wednesday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                     </div>
-                    <div style="display: flex; flex-direction: column;">
-                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
-                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
-                      <p-selectButton [options]="addNightTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.thursday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.thursday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.thursday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                     </div>
-                    <div style="display: flex; flex-direction: column;">
-                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
-                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
-                      <p-selectButton [options]="addNightTurn" [(ngModel)]="value" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.friday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.friday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.friday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.saturday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.saturday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.saturday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.sunday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.sunday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.sunday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
                     </div>
                   </div>
                 </div>

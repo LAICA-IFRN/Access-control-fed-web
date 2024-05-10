@@ -13,6 +13,8 @@ export const TUESDAY = "Terça-feira";
 export const WEDNESDAY = "Quarta-feira";
 export const THURSDAY = "Quinta-feira";
 export const FRIDAY = "Sexta-feira";
+export const SATURDAY = "Sábado";
+export const SUNDAY = "Domingo";
 
 
 @Component({
@@ -33,8 +35,8 @@ export class EnvironmentsComponent implements OnInit {
   addTimeOptions: any[] = [{ label: 'Permanente', value: PERMANENT}, { label: 'Por Turno', value: DAY }, { label: 'Por Horário', value: TIME }]
   addTimeOptionsSelected: number = PERMANENT | DAY | TIME
   
-  addDayOptions: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }];
-  addDayOptionsSelected: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY;
+  addDayOptions: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }, { day: SATURDAY, value1: SATURDAY }, { day: SUNDAY, value1: SUNDAY}];
+  addDayOptionsSelected: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY;
 
   addMorningTurn: any[] = [{ label: 'Manhã', value: 1 }];
   addAfternoonTurn: any[] = [{ label: 'Tarde', value: 1 }];
@@ -188,9 +190,11 @@ export class EnvironmentsComponent implements OnInit {
       return 5;
     } else if (dia === "Saturday"){
       return 6;
+    } else if (dia === "Sunday"){
+      return 7;
     } else {
       return 0;
-    }  
+    }
   }
 
   async handleEnvironmentDialog() {
