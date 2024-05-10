@@ -158,7 +158,6 @@ async resCreateEnvironment(): Promise<void>{
     this.addErroMessage('Erro ao tentar criar novo ambiente.');
   } else {
     this.addSuccessMessage('Novo ambiente criado com sucesso.');
-    this.restart();
   }
 }
 
