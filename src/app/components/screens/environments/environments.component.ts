@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddFrequenterModel, DayOptions } from 'src/app/models/environments/add-frequenter.model';
+import { AddFrequenterModel, DayOptions, TimeOptions } from 'src/app/models/environments/add-frequenter.model';
 import { EnvironmentsFilter } from 'src/app/models/environments/environments.filter';
 import { EnvironmentsResponse } from 'src/app/models/environments/environments.response';
 import { EnvironmentsService } from 'src/app/services/environments.service';
@@ -8,13 +8,13 @@ import { UsersService } from 'src/app/services/users.service';
 const FREQUENTER = 2, MANAGER = 3, TEMPORARY = 4;
 const PERMANENT = 1, DAY = 2, TIME = 3;
 
-export const MONDAY = "Segunda-feira";
-export const TUESDAY = "Terça-feira";
-export const WEDNESDAY = "Quarta-feira";
-export const THURSDAY = "Quinta-feira";
-export const FRIDAY = "Sexta-feira";
-export const SATURDAY = "Sábado";
-export const SUNDAY = "Domingo";
+export const MONDAY = 1;
+export const TUESDAY = 2;
+export const WEDNESDAY = 3;
+export const THURSDAY = 4;
+export const FRIDAY = 5;
+export const SATURDAY = 6;
+export const SUNDAY = 0;
 
 
 @Component({
@@ -25,6 +25,10 @@ export const SUNDAY = "Domingo";
 export class EnvironmentsComponent implements OnInit {
 
   dayOptions;
+  timeOptions;
+  selectedTimeAccess: any[] = [];
+
+  data: any;
 
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
@@ -35,11 +39,11 @@ export class EnvironmentsComponent implements OnInit {
   addTimeOptions: any[] = [{ label: 'Permanente', value: PERMANENT}, { label: 'Por Turno', value: DAY }, { label: 'Por Horário', value: TIME }]
   addTimeOptionsSelected: number = PERMANENT | DAY | TIME
   
-  addDayOptions: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }, { day: SATURDAY, value1: SATURDAY }, { day: SUNDAY, value1: SUNDAY}];
-  addDayOptionsSelected: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY;
+  addDayOptions: any[] = [{ day: "Segunda-Feira", value1: MONDAY }, { day: "Terça-feira", value1: TUESDAY }, { day: "Quarta-Feira", value1: WEDNESDAY }, { day: "Quinta-Feira", value1: THURSDAY }, { day: "Sexta-Feira", value1: FRIDAY }, { day: "Sábado", value1: SATURDAY }, { day: "Domingo", value1: SUNDAY}];
+  addDayOptionsSelected: number = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY;
 
-  addDayOptions2: any[] = [{ day: MONDAY, value1: MONDAY }, { day: TUESDAY, value1: TUESDAY }, { day: WEDNESDAY, value1: WEDNESDAY }, { day: THURSDAY, value1: THURSDAY }, { day: FRIDAY, value1: FRIDAY }, { day: SATURDAY, value1: SATURDAY }, { day: SUNDAY, value1: SUNDAY}];
-  addDayOptionsSelected2: string = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY
+  addDayOptions2: any[] = [{ day: 'Segunda-Feira', value1: MONDAY }, { day: 'Terça-feira', value1: TUESDAY }, { day: 'Quarta-Feira', value1: WEDNESDAY }, { day: 'Quinta-Feira', value1: THURSDAY }, { day: 'Sexta-Feira', value1: FRIDAY }, { day: 'Sábado', value1: SATURDAY }, { day: 'Domingo', value1: SUNDAY}];
+  addDayOptionsSelected2: number = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY
 
   addMorningTurn: any[] = [{ label: 'Manhã', value: 1 }];
   addAfternoonTurn: any[] = [{ label: 'Tarde', value: 1 }];
@@ -115,7 +119,7 @@ export class EnvironmentsComponent implements OnInit {
     this.addFrequenterModel.access = [];
     
     this.addTimeOptionsSelected = 0
-    this.addDayOptionsSelected =""
+    this.addDayOptionsSelected = 0
 
     this.frequenters = await this.getFrequenters().then(data => {
       return data.map(frequenter => {
@@ -138,6 +142,13 @@ export class EnvironmentsComponent implements OnInit {
     this.dayOptions.friday = {morning: null, afternoon: null, night: null, selected: false};
     this.dayOptions.saturday = {morning: null, afternoon: null, night: null, selected: false};
     this.dayOptions.sunday = {morning: null, afternoon: null, night: null, selected: false};
+
+    this.timeOptions = new TimeOptions();
+    this.data = [
+      { value: 'firstValue' },
+      { value: 'secondValue' },
+      { value: 'thirdValue' },
+    ];
   }
 
   requiredField(field: any): boolean {
@@ -251,6 +262,14 @@ export class EnvironmentsComponent implements OnInit {
     console.log(response)
     
   }
+
+  addTimeOptionsTurn(){
+    this.selectedTimeAccess.push(this.timeOptions)
+    this.timeOptions = new TimeOptions()
+    console.log(this.selectedTimeAccess);
+    
+  }
+  
   
   changeUserAddOptions(event: any): void {
     console.log('change user ddd options');

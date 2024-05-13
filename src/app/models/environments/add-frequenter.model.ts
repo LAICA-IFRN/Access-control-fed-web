@@ -62,3 +62,9 @@ export class DayOptions {
   constructor() {}
 }
 
+export class TimeOptions {
+  horarioEntrada: any;
+  horarioSaida: any;
+  dias: any[];
+  constructor() {}
+}
