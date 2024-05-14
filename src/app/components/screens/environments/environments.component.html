@@ -54,7 +54,7 @@
           <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="handleEnvironmentDialog()"></button>
         </ng-template>
       </p-dialog>
-      <p-dialog [(visible)]="addUserDialog" [style]="{width: '800px'}" header="Vincular usuário" [modal]="true" class="p-fluid">
+      <p-dialog [(visible)]="addUserDialog" [style]="{width: '900px'}" header="Vincular usuário" [modal]="true" class="p-fluid">
         <p-toolbar styleClass="mb-4">
           <div class="my-2 select-b-add-user">
             <p-selectButton [options]="addUserOptions" [(ngModel)]="addUserOptionSelected" (onChange)="changeUserAddOptions($event)" optionLabel="label" optionValue="value"></p-selectButton>
@@ -74,7 +74,7 @@
                 <small class="ng-dirty ng-invalid" *ngIf="requiredField(addFrequenterModel.endPeriod)">Fim do periodo de acesso é obrigatório.</small>
               </div>
             </div>
-            <div style="display: inline-flex; width: 100%; height: 700px;">
+            <div style="display: inline-flex; width: 100%; height: 78px;">
               <div class="field" style="width: 50%; padding-right: 20px;">
                 <label for="environments">Ambiente</label>
                 <p-dropdown [options]="environmentsToSelect" [(ngModel)]="selectedEnvironmentToAddUser" optionLabel="name" required id="environments" [ngClass]="{'ng-invalid ng-dirty' : requiredField(selectedEnvironmentToAddUser)}" (onChange)="onEnvironmentSelected()"></p-dropdown>
@@ -86,7 +86,111 @@
                 <small class="ng-dirty ng-invalid" *ngIf="requiredField(selectedFrequenter)">Frequentador é obrigatório.</small>
               </div>
             </div>
-          </div>
+            <div>
+              <div class="field" style="width: 100%; height: 680px; padding-right: 20px;">
+                <label for="time">Selecione sua frequêcia no laboratório</label>
+                <p-dropdown [options]="addTimeOptions" [(ngModel)]="addTimeOptionsSelected" (onChange)="changeTimeAddOptions($event)" required id="addTimeOptions" placeholder="Escolha uma opção:" [ngClass]="{'ng-invalid ng-dirty' : requiredField(addTimeOptionsSelected)}">
+                </p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="requiredField(addTimeOptionsSelected)">Turno é obrigatório.</small>
+
+                <div *ngIf="addTimeOptionsSelected === 2">
+                   <div style="display: flex; align-items: center; justify-content: center;"><p style="margin: 1rem 0rem;"><strong>Selecione o dia</strong></p></div>
+                   <p-selectButton [options]="addDayOptions" [(ngModel)]="addDayOptionsSelected" multiple="true" optionLabel="day" optionValue="value1" (onChange)="changeTimeAddOptions($event)" [disabled]="true"></p-selectButton>
+                  <div style="display: flex; align-items: center; justify-content: center;">
+                    <div style="display: flex; flex-direction: column; width: 100%;">
+                    <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.monday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.monday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.monday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.tuesday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.tuesday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.tuesday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%;">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.wednesday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.wednesday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.wednesday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.thursday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.thursday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.thursday.night" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.friday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.friday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.friday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.saturday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.saturday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.saturday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                    <div style="display: flex; flex-direction: column; width: 100%">
+                      <p-selectButton [options]="addMorningTurn" [(ngModel)]="dayOptions.sunday.morning" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addAfternoonTurn" [(ngModel)]="dayOptions.sunday.afternoon" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                      <p-selectButton [options]="addNightTurn" [(ngModel)]="dayOptions.sunday.addNightTurn" multiple="true" optionLabel="label" optionValue="value" (onChange)="changeTimeAddOptions($event)"></p-selectButton>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="addTimeOptionsSelected === 3" style="display: flex; flex-direction: row;">
+                  <div style="display: flex; justify-content: flex-end; flex-wrap: wrap; flex-direction: row-reverse; width: 50%;">
+                    <div style="display: flex; flex-direction: column; padding-top: 1rem;">
+                      <label>Selecione o dia</label>
+                      <p-multiSelect [style]="{'width': '26rem'}" [options]="addDayOptions" [(ngModel)]="timeOptions.dias" [filter]="false" optionLabel="day" placeholder="Escolha o dia:">
+                      </p-multiSelect>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
+                      <div style="display: flex; flex-direction: column;">
+                        <span style="margin-top: 1rem;">Horário de entrada</span>
+                        <p-calendar  [(ngModel)]="timeOptions.horarioEntrada" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                          <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                              <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
+                          </ng-template>>
+                        </p-calendar>
+                      </div>
+                      <div style="display: flex; flex-direction: column;">
+                        <span style="margin-top: 1rem;">Horário de saída</span>
+                        <p-calendar  [(ngModel)]="timeOptions.horarioSaida" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                          <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                            <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
+                            
+                          </ng-template>>
+                        </p-calendar>
+                      </div>
+                    </div>
+                    <button pButton pRipple label="Adicionar" icon="pi pi-plus" class="p-button-success mr-2" (click)="addTimeOptionsTurn()"></button>
+                  </div>
+                  
+                  <!-- <p-dataView #dv [value]="selectedTimeAccess">
+                    <ng-template let-timeAccess pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                                <h3>{{ timeAccess.horarioEntrada }}</h3>
+                            </div>
+                        </div>
+                    </ng-template>
+                  </p-dataView> -->
+                  
+                  <p-dataView #dv [value]="selectedTimeAccess">
+                    <ng-template let-item pTemplate="listItem">
+                      <div class="col-12">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                          <p-chip [label]="item.dias"></p-chip>
+                          <div *ngIf="firstTimeOption">
+                            <button pButton pRippleicon="pi pi-times" (click)="removeTimeOptionsTurn()"></button>
+                          </div>
+                       </div>
+                      </div>
+                    </ng-template>
+                  </p-dataView>
+                  
+                </div>
+              </div>
+                  </div>
+                </div>
           <div *ngIf="addUserOptionSelected === manager">
             {{ selectedEnvironment?.id }}
           </div>
