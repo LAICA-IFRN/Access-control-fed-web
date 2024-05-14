@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { EnvironmentsFilter } from '../models/environments/environments.filter';
 import { EnvironmentsResponse } from '../models/environments/environments.response';
 import { EnvironmentsDashboardDataModel } from '../models/environments/environments-dashboard-data.model';
+import { AddFrequenterModel } from '../models/environments/add-frequenter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,4 +32,11 @@ export class EnvironmentsService {
     };
     return this.httpClient.get<EnvironmentsDashboardDataModel>(this.api + '/dashboard', { headers });
   }
+
+  public createAddFrequenter(request: AddFrequenterModel): Observable<any> {
+    const headers = {
+      Authorization: `Bearer ${this.token}`
+    };
+    return this.httpClient.get<EnvironmentsDashboardDataModel>(this.api + '/frequenter', { headers });
+  } 
 }

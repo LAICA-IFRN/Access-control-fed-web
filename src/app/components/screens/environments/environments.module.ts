@@ -14,6 +14,9 @@ import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CalendarModule } from 'primeng/calendar';
+import { OrderListModule } from 'primeng/orderlist';
+import { DataViewModule } from 'primeng/dataview';
+import { ChipModule } from 'primeng/chip';
 
 @NgModule({
   imports: [
@@ -30,7 +33,10 @@ import { CalendarModule } from 'primeng/calendar';
     ListboxModule,
     DialogModule,
     SelectButtonModule,
-    CalendarModule
+    CalendarModule,
+    OrderListModule,
+    DataViewModule,
+    ChipModule
   ],
   declarations: [EnvironmentsComponent]
 })
