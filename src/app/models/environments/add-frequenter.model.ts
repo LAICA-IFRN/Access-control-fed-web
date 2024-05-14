@@ -63,8 +63,8 @@ export class DayOptions {
 }
 
 export class TimeOptions {
-  horarioEntrada: any;
-  horarioSaida: any;
+  horarioEntrada: Date | String;
+  horarioSaida: Date;
   dias: any[];
   constructor() {}
 }

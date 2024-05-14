@@ -28,7 +28,7 @@ export class EnvironmentsComponent implements OnInit {
   timeOptions;
   selectedTimeAccess: any[] = [];
 
-  data: any;
+  firstTimeOption: boolean = true;
 
   addUserOptions: any[] = [{ label: 'FREQUENTADOR', value: FREQUENTER }, { label: 'SUPERVISOR', value: MANAGER }, { label: 'TEMPORÁRIO', value: TEMPORARY }];
   addUserOptionSelected: number = FREQUENTER | MANAGER | TEMPORARY;
@@ -39,10 +39,10 @@ export class EnvironmentsComponent implements OnInit {
   addTimeOptions: any[] = [{ label: 'Permanente', value: PERMANENT}, { label: 'Por Turno', value: DAY }, { label: 'Por Horário', value: TIME }]
   addTimeOptionsSelected: number = PERMANENT | DAY | TIME
   
-  addDayOptions: any[] = [{ day: "Segunda-Feira", value1: MONDAY }, { day: "Terça-feira", value1: TUESDAY }, { day: "Quarta-Feira", value1: WEDNESDAY }, { day: "Quinta-Feira", value1: THURSDAY }, { day: "Sexta-Feira", value1: FRIDAY }, { day: "Sábado", value1: SATURDAY }, { day: "Domingo", value1: SUNDAY}];
+  addDayOptions: any[] = [{ day: "Segunda", value1: MONDAY }, { day: "Terça", value1: TUESDAY }, { day: "Quarta", value1: WEDNESDAY }, { day: "Quinta", value1: THURSDAY }, { day: "Sexta", value1: FRIDAY }, { day: "Sábado", value1: SATURDAY }, { day: "Domingo", value1: SUNDAY}];
   addDayOptionsSelected: number = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY;
 
-  addDayOptions2: any[] = [{ day: 'Segunda-Feira', value1: MONDAY }, { day: 'Terça-feira', value1: TUESDAY }, { day: 'Quarta-Feira', value1: WEDNESDAY }, { day: 'Quinta-Feira', value1: THURSDAY }, { day: 'Sexta-Feira', value1: FRIDAY }, { day: 'Sábado', value1: SATURDAY }, { day: 'Domingo', value1: SUNDAY}];
+  addDayOptions2: any[] = [{ day: 'Segunda', value1: MONDAY }, { day: 'Terça', value1: TUESDAY }, { day: 'Quarta', value1: WEDNESDAY }, { day: 'Quinta', value1: THURSDAY }, { day: 'Sexta', value1: FRIDAY }, { day: 'Sábado', value1: SATURDAY }, { day: 'Domingo', value1: SUNDAY}];
   addDayOptionsSelected2: number = MONDAY || TUESDAY || WEDNESDAY || THURSDAY || FRIDAY || SATURDAY || SUNDAY
 
   addMorningTurn: any[] = [{ label: 'Manhã', value: 1 }];
@@ -144,11 +144,9 @@ export class EnvironmentsComponent implements OnInit {
     this.dayOptions.sunday = {morning: null, afternoon: null, night: null, selected: false};
 
     this.timeOptions = new TimeOptions();
-    this.data = [
-      { value: 'firstValue' },
-      { value: 'secondValue' },
-      { value: 'thirdValue' },
-    ];
+    this.selectedTimeAccess.push({
+      dias: "Sem horários selecionados"
+    })
   }
 
   requiredField(field: any): boolean {
@@ -213,6 +211,24 @@ export class EnvironmentsComponent implements OnInit {
     }
   }
 
+  selectDayString(dia: string){
+    if (dia === "Segunda"){
+      return "Seg";
+    } else if (dia === 'Terça'){
+      return "Ter";
+    } else if (dia === "Quarta"){
+      return "Qua";
+    } else if (dia === "Quinta"){
+      return "Qui";
+    } else if (dia === "Sexta"){
+      return "Sex";
+    } else if (dia === "Sábado"){
+      return "Sáb";
+    } else {
+      return "Dom";
+    }
+  }
+
   async handleEnvironmentDialog() {
     //iterar sobre dayOptions
     for (const key in this.dayOptions) {
@@ -264,11 +280,37 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   addTimeOptionsTurn(){
-    this.selectedTimeAccess.push(this.timeOptions)
+    console.log(this.timeOptions);
+    //console.log(typeof this.timeOptions.horarioEntrada);
+    const entrada: string = this.timeOptions.horarioEntrada.toLocaleTimeString()
+    const saida: string = this.timeOptions.horarioSaida.toLocaleTimeString()
+    this.timeOptions.horarioEntrada = entrada.substring(0, entrada.lastIndexOf(":"))
+    this.timeOptions.horarioSaida = saida.substring(0, saida.lastIndexOf(":"))
+    let temp = this.timeOptions.horarioEntrada + ' - ' + this.timeOptions.horarioSaida
+    this.timeOptions.dias.forEach((element, index) => {
+      if (index == 0) {
+        temp += ' ' + this.selectDayString(element.day)
+      } else {
+        temp += ', ' + this.selectDayString(element.day)
+      }
+    });
+    this.timeOptions.dias = temp;
+    if (this.selectedTimeAccess[0].dias == "Sem horários selecionados") {
+      this.firstTimeOption = false
+      this.selectedTimeAccess = [this.timeOptions]
+
+    } else {
+      this.selectedTimeAccess = [
+        ...this.selectedTimeAccess,
+        this.timeOptions
+      ]
+    }
     this.timeOptions = new TimeOptions()
     console.log(this.selectedTimeAccess);
     
   }
+
+  removeTimeOptionsTurn(){}
   
   
   changeUserAddOptions(event: any): void {

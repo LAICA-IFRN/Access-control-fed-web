@@ -54,7 +54,7 @@
           <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="handleEnvironmentDialog()"></button>
         </ng-template>
       </p-dialog>
-      <p-dialog [(visible)]="addUserDialog" [style]="{width: '800px'}" header="Vincular usuário" [modal]="true" class="p-fluid">
+      <p-dialog [(visible)]="addUserDialog" [style]="{width: '900px'}" header="Vincular usuário" [modal]="true" class="p-fluid">
         <p-toolbar styleClass="mb-4">
           <div class="my-2 select-b-add-user">
             <p-selectButton [options]="addUserOptions" [(ngModel)]="addUserOptionSelected" (onChange)="changeUserAddOptions($event)" optionLabel="label" optionValue="value"></p-selectButton>
@@ -145,7 +145,7 @@
                     <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
                       <div style="display: flex; flex-direction: column;">
                         <span style="margin-top: 1rem;">Horário de entrada</span>
-                        <p-calendar  [(ngModel)]="timeOptions.HorarioEntrada" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                        <p-calendar  [(ngModel)]="timeOptions.horarioEntrada" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
                           <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
                               <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
                           </ng-template>>
@@ -156,6 +156,7 @@
                         <p-calendar  [(ngModel)]="timeOptions.horarioSaida" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
                           <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
                             <i class="pi pi-user pointer-events-none" (click)="clickCallBack($event)"></i>
+                            
                           </ng-template>>
                         </p-calendar>
                       </div>
@@ -177,8 +178,10 @@
                     <ng-template let-item pTemplate="listItem">
                       <div class="col-12">
                         <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                          
-                          <p-chip [label]="item.horarioEntrada"></p-chip>
+                          <p-chip [label]="item.dias"></p-chip>
+                          <div *ngIf="firstTimeOption">
+                            <button pButton pRippleicon="pi pi-times" (click)="removeTimeOptionsTurn()"></button>
+                          </div>
                        </div>
                       </div>
                     </ng-template>
