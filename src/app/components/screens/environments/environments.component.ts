@@ -230,6 +230,12 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   async handleEnvironmentDialog() {
+
+    if (this.addTimeOptionsSelected  === PERMANENT) {
+      this.addFrequenterModel.permanent = true;
+      delete this.addFrequenterModel.access
+      console.log(this.addFrequenterModel);
+    } else if (this.addTimeOptionsSelected === DAY) {
     //iterar sobre dayOptions
     for (const key in this.dayOptions) {
       if (this.dayOptions.hasOwnProperty(key)) {
@@ -264,7 +270,11 @@ export class EnvironmentsComponent implements OnInit {
               this.addFrequenterModel.access.push(element);
             } 
       }
-    }
+    } 
+
+  } else {
+    this.addTimeOptionsTurn()
+  }
 
     this.addFrequenterModel.environmentId = this.selectedEnvironmentToAddUser.id
     this.addFrequenterModel.userId = this.selectedFrequenter.label
@@ -310,7 +320,9 @@ export class EnvironmentsComponent implements OnInit {
     
   }
 
-  removeTimeOptionsTurn(){}
+  removeTimeOptionsTurn(turnoIndex: any){
+    
+  }
   
   
   changeUserAddOptions(event: any): void {
