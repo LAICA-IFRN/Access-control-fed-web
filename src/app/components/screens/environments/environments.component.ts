@@ -320,8 +320,17 @@ export class EnvironmentsComponent implements OnInit {
     
   }
 
-  removeTimeOptionsTurn(turnoIndex: any){
-    
+  removeTimeOptionsTurn(item){
+    //adicione a funcionalidade de remover um horário
+    const index = this.selectedTimeAccess.indexOf(item);
+    this.selectedTimeAccess.splice(index, 1);
+    if (this.selectedTimeAccess.length == 0){
+      this.firstTimeOption = true
+      this.selectedTimeAccess.push({
+        dias: "Sem horários selecionados"
+      })
+    }
+    console.log(item);
   }
   
   

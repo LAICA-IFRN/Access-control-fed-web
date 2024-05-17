@@ -184,7 +184,7 @@
                             <div style="display: flex; justify-content: space-between; padding: 1rem;">
                               <p-chip [label]="item.dias"></p-chip>
                               <div *ngIf="firstTimeOption == false " style="display: flex; align-items: center;">
-                                <button style="width: 1rem;"  pButton pRippleicon="pi pi-times" (click)="removeTimeOptionsTurn()"></button>
+                                <button style="width: 1rem;"  pButton pRipple icon="pi pi-times" class="p-button-text" (click)="removeTimeOptionsTurn(item)"></button>
                               </div>
                           </div>
                           </div>
