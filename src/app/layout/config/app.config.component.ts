@@ -1,19 +1,29 @@
-import { Component, Input } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
 import { LayoutService } from "../service/app.layout.service";
 import { MenuService } from "../service/app.menu.service";
-
+ 
 @Component({
     selector: 'app-config',
     templateUrl: './app.config.component.html'
 })
-export class AppConfigComponent {
+export class AppConfigComponent implements OnInit {
 
     @Input() minimal: boolean = false;
-
+    
     scales: number[] = [12, 13, 14, 15, 16];
+    private storage: Storage;
+    theme: string;
 
-    constructor(public layoutService: LayoutService, public menuService: MenuService) { }
-
+    constructor(public layoutService: LayoutService, public menuService: MenuService) {
+        this.storage = window.localStorage;
+    }
+    
+    ngOnInit() {
+        this.theme = this.storage.getItem('theme')?? "light";
+        this.changeTheme(this.theme, this.theme == 'light'? 'mdc-light-indigo':'mdc-dark-indigo')
+    }
+    
     get visible(): boolean {
         return this.layoutService.state.configSidebarVisible;
     }
@@ -71,6 +81,8 @@ export class AppConfigComponent {
         // });
         const newHref = 'assets/layout/styles/theme/' + theme + '/theme.css';
         themeLink.setAttribute('href', newHref);
+
+        this.storage.setItem('theme', theme);
     }
 
     replaceThemeLink(href: string, onComplete: Function) {
