@@ -5,6 +5,7 @@ export class AddFrequenterModel {
   userName: string;
   environmentId: string;
   access: any[];
+  permanent: boolean;
   constructor() {}
 }
 
