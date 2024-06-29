@@ -13,15 +13,17 @@ export class AppConfigComponent implements OnInit {
     
     scales: number[] = [12, 13, 14, 15, 16];
     private storage: Storage;
+    themes: { light: string, dark: string };
     theme: string;
 
     constructor(public layoutService: LayoutService, public menuService: MenuService) {
         this.storage = window.localStorage;
+        this.themes = { light: 'mdc-light-indigo', dark: 'mdc-dark-indigo' };
     }
     
     ngOnInit() {
-        this.theme = this.storage.getItem('theme')?? "light";
-        this.changeTheme(this.theme, this.theme == 'light'? 'mdc-light-indigo':'mdc-dark-indigo')
+        this.theme = this.storage.getItem('theme') ?? 'light';
+        this.changeTheme(this.theme);
     }
     
     get visible(): boolean {
@@ -68,8 +70,8 @@ export class AppConfigComponent implements OnInit {
         this.layoutService.showConfigSidebar();
     }
 
-    changeTheme(theme: string, colorScheme: string) {
-        console.log('theme', theme, 'colorScheme', colorScheme);
+    changeTheme(theme: string) {
+        console.log(this.themes[theme]);
         
         const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
         // const newHref = themeLink.getAttribute('href')!.replace(this.layoutService.config.theme, theme);
@@ -79,7 +81,7 @@ export class AppConfigComponent implements OnInit {
         //     this.layoutService.config.colorScheme = colorScheme;
         //     this.layoutService.onConfigUpdate();
         // });
-        const newHref = 'assets/layout/styles/theme/' + theme + '/theme.css';
+        const newHref = 'assets/layout/styles/theme/' + this.themes[theme] + '/theme.css';
         themeLink.setAttribute('href', newHref);
 
         this.storage.setItem('theme', theme);
