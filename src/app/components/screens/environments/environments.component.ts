@@ -259,6 +259,12 @@ export class EnvironmentsComponent implements OnInit {
   }
 
   async handleEnvironmentDialog() {
+
+    if (this.addTimeOptionsSelected  === PERMANENT) {
+      this.addFrequenterModel.permanent = true;
+      delete this.addFrequenterModel.access
+      console.log(this.addFrequenterModel);
+    } else if (this.addTimeOptionsSelected === DAY) {
     //iterar sobre dayOptions
     for (const key in this.dayOptions) {
       if (this.dayOptions.hasOwnProperty(key)) {
@@ -293,7 +299,11 @@ export class EnvironmentsComponent implements OnInit {
               this.addFrequenterModel.access.push(element);
             } 
       }
-    }
+    } 
+
+  } else {
+    this.addTimeOptionsTurn()
+  }
 
     this.addFrequenterModel.environmentId = this.selectedEnvironmentToAddUser.id
     this.addFrequenterModel.userId = this.selectedFrequenter.label
@@ -318,7 +328,7 @@ export class EnvironmentsComponent implements OnInit {
     let temp = this.timeOptions.horarioEntrada + ' - ' + this.timeOptions.horarioSaida
     this.timeOptions.dias.forEach((element, index) => {
       if (index == 0) {
-        temp += ' ' + this.selectDayString(element.day)
+        temp += ' | ' + this.selectDayString(element.day)
       } else {
         temp += ', ' + this.selectDayString(element.day)
       }
@@ -339,7 +349,18 @@ export class EnvironmentsComponent implements OnInit {
     
   }
 
-  removeTimeOptionsTurn(){}
+  removeTimeOptionsTurn(item){
+    //adicione a funcionalidade de remover um horário
+    const index = this.selectedTimeAccess.indexOf(item);
+    this.selectedTimeAccess.splice(index, 1);
+    if (this.selectedTimeAccess.length == 0){
+      this.firstTimeOption = true
+      this.selectedTimeAccess.push({
+        dias: "Sem horários selecionados"
+      })
+    }
+    console.log(item);
+  }
   
   
   changeUserAddOptions(event: any): void {
